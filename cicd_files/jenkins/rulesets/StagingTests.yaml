@@ -1,0 +1,22 @@
+modelVersion: 2.0
+
+description: "Resource Pooling Tool: Staging Tests Pipeline"
+
+properties:
+ - functional-tests-path: ./stagingtests/functional_tests.sh
+ - non-functional-tests-path: ./stagingtests/nonfunctional_tests.sh
+
+env:
+  - COMPOSE_PROJECT_NAME
+  - GIT_BRANCH
+  - GIT_CMD
+  - NUMBER_OF_USER
+  - DURATION
+
+rules:
+  functional-test:
+    - task: run-functional-tests
+      cmd: sh ${functional-tests-path}
+  non-functional-test:
+    - task: run-non-functional-tests
+      cmd: sh ${non-functional-tests-path} '${env.NUMBER_OF_USER}' '${env.DURATION}'

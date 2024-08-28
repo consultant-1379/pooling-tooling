@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+  angular:
+    build: services/angular
+
+  express:
+    build: services/express
+    restart: on-failure
+    environment:
+      NODE_ENV: DEV
+      TB_FUNCTIONAL_USER: ${TB_FUNCTIONAL_USER}
+      TB_FUNCTIONAL_USER_PASSWORD: ${TB_FUNCTIONAL_USER_PASSWORD}
+      TB_ARM_USER: ${TB_ARM_USER}
+      TB_ARM_USER_PASSWORD: ${TB_ARM_USER_PASSWORD}
+    links:
+      - database
+
+  database:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/mongo:4.2.2
+    ports:
+      - "27017:27017"
+
+  nginx:
+    build:
+      context: services/nginx
+      dockerfile: Dockerfile-local-all
+    ports:
+      - "80:80"
+    links:
+      - angular
+      - express
+
+  mongoExporter:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/bitnami/mongodb-exporter:0.20.4
+    ports:
+      - "9216:9216"
+    command: --mongodb.uri mongodb://database:27017
+    links:
+      - database
+
+  nodeExporter:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/prom/node-exporter:v1.1.2
+
+  nginxExporter:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/nginx/nginx-prometheus-exporter:0.8.0
+    environment:
+      - SCRAPE_URI=http://nginx/nginx_status
+    ports:
+      - "9113:9113"
+    links:
+      - nginx
+
+  cAdvisor:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/google/cadvisor:v0.33.0

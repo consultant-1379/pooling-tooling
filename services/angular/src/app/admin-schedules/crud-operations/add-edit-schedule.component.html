@@ -1,0 +1,133 @@
+<div class="container add-edit-schedule-main-form">
+    <a mat-icon-button (click)="closeDialogModal()" class="close-button" matTooltip="Close" mattooltipposition="above" matTooltipClass="example-tooltip-red">
+        <mat-icon class="icon-properties">cancel</mat-icon>
+    </a>
+    <h4 class="header-class">
+        {{ crudAction }} Schedule: <b>{{data.scheduleName}}</b>
+    </h4>
+    <div class="inner-add-edit-schedule-form">
+        <form [formGroup]="addEditScheduleForm">
+            <div class="form-group">
+                <br>
+                <h2 class="category-header">Schedule Properties</h2>
+                <hr>
+                <mat-label class="add-edit-schedule-form-header">Schedule Enabled
+                </mat-label>
+                <div style="padding: 15px 0px 15px" >
+                <mat-slide-toggle [(ngModel)]="schedule.scheduleEnabled" formControlName="scheduleEnabled">
+                </mat-slide-toggle>
+                </div>
+                <mat-label class="add-edit-schedule-form-header" style="padding-bottom: 50px;">Type Of Items To Schedule</mat-label>
+                <div style="padding: 10px 0 10px;">
+                <mat-radio-group
+                formControlName="typeOfItemsToSchedule"
+                aria-label="Select an option"
+                class="select-view"
+                (change)="clearSelection()"
+                [(ngModel)]="schedule.typeOfItemsToSchedule"
+                >
+                <mat-radio-button
+                    class="select-view"
+                    *ngFor="let typeOfScheduleItem of typeOfScheduleItems"
+                    [value]="typeOfScheduleItem">
+                    {{typeOfScheduleItem}}
+                </mat-radio-button>
+                </mat-radio-group>
+                </div>
+                <mat-label class="add-edit-schedule-form-header">Items To Schedule Ids</mat-label>
+                <div [ngSwitch]="schedule.typeOfItemsToSchedule">
+                    <ng-multiselect-dropdown
+                        formControlName="itemsToScheduleIdsValue"
+                        *ngSwitchCase="'pool'"
+                        class="poolSelect"
+                        [placeholder]="'Select Pool'"
+                        [settings]="dropdownSettings"
+                        [data]="availablePools"
+                        [(ngModel)]="schedule.refreshData.itemsToScheduleIds"
+                        >
+                    </ng-multiselect-dropdown>
+                    <ng-multiselect-dropdown
+                        formControlName="itemsToScheduleIdsValue"
+                        *ngSwitchCase="'test-environment'"
+                        class="poolSelect"
+                        [placeholder]="'Select Test Environment'"
+                        [settings]="dropdownSettings"
+                        [data]="availableTestEnvironments"
+                        [(ngModel)]="schedule.refreshData.itemsToScheduleIds"
+                        [settings]="dropdownSettings"
+                        >
+                    </ng-multiselect-dropdown>
+                    <ng-multiselect-dropdown *ngSwitchDefault  class="poolSelect" [placeholder]="'Select Type of Items To Schedule'"
+                    [settings]="dropdownSettings">
+                    </ng-multiselect-dropdown>
+                </div>
+
+                <mat-label class="add-edit-schedule-form-header">Spinnaker Pipeline Application Name</mat-label>
+                <mat-form-field class="select-view" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="schedule.refreshData.spinnakerPipelineApplicationName"
+                        formControlName="spinnakerPipelineApplicationName" placeholder="Enter Spinnaker Pipeline Application Name">
+                </mat-form-field>
+
+                <mat-label class="add-edit-schedule-form-header">Spinnaker Pipeline Name</mat-label>
+                <mat-form-field class="select-view" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="schedule.refreshData.spinnakerPipelineName"
+                        formControlName="spinnakerPipelineName" placeholder="Enter Spinnaker Pipeline Name">
+                </mat-form-field>
+
+                <mat-label class="add-edit-schedule-form-header">Retention Policy Enabled</mat-label>
+                <div style="padding: 15px 0px 15px">
+                    <mat-slide-toggle [(ngModel)]="schedule.retentionPolicyData.retentionPolicyEnabled" formControlName="retentionPolicyEnabled">
+                    </mat-slide-toggle>
+                </div>
+
+            <div *ngIf="schedule.retentionPolicyData.retentionPolicyEnabled">
+                <mat-label class="add-edit-schedule-form-header">Number of Environments</mat-label>
+                <mat-form-field class="select-view" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="schedule.retentionPolicyData.numOfStanbyEnvsToBeRetained"
+                        formControlName="numOfStanbyEnvsToBeRetained" placeholder="Enter Number of Standby Envs to be Retained" type="number" min="1" >
+                </mat-form-field>
+                <mat-label class="add-edit-schedule-form-header">Number of Comparisons</mat-label>
+                <mat-form-field class="select-view" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="schedule.retentionPolicyData.numOfEiapReleaseForComparison"
+                        formControlName="numOfEiapReleaseForComparison" placeholder="Enter Number of Software Release Versions For Comparison" type="number" min="1" >
+                </mat-form-field>
+            </div>
+
+            <mat-label class="add-edit-schedule-form-header">Schedule Type</mat-label>
+            <ng-multiselect-dropdown
+                [placeholder]="'Select Schedule Type'"
+                [settings]="dropdownSingleSettings"
+                [data]=scheduleTypeOptions
+                [(ngModel)]="schedule.scheduleOptions.scheduleType"
+                formControlName="scheduleType"
+                class="scheduleTypeSelect">
+            </ng-multiselect-dropdown>
+
+            <mat-label class="add-edit-schedule-form-header">Project Area</mat-label>
+            <ng-multiselect-dropdown [placeholder]="'Select Project Area'" [settings]="dropdownSingleSettings" [data]=projectAreaOptions [(ngModel)]="schedule.scheduleOptions.projectArea"  formControlName="projectArea" class="projectAreaSelect">
+            </ng-multiselect-dropdown>
+
+            <mat-label class="add-edit-schedule-form-header">Cron Schedule</mat-label>
+            <mat-form-field class="select-view" flatLabel="auto" appearance="outline">
+                <input matInput [(ngModel)]="schedule.scheduleOptions.cronSchedule" formControlName="cronSchedule"
+                placeholder="Enter Cron Schedule" (input)="cronHumanReadable(schedule.scheduleOptions.cronSchedule)">
+
+            </mat-form-field>
+            <div *ngIf="addEditScheduleForm?.get('cronSchedule')?.valid" class="alert alert-success cron-schedule-error-alert">
+                {{cronReadableValue}}
+            </div>
+            <div *ngIf="addEditScheduleForm.get('cronSchedule')?.invalid &&
+            (addEditScheduleForm.get('cronSchedule')?.dirty || addEditScheduleForm.get('cronSchedule')?.touched)"
+            class="alert alert-danger cron-schedule-error-alert">
+                <div *ngIf="addEditScheduleForm.get('cronSchedule')?.errors?.invalidCronScheduleInput">
+                    {{cronReadableValueError.slice(6)}}
+                </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="apply-button-section">
+        <button class="confirm w-100 button-height" mat-raised-button color="primary" [disabled]="addEditScheduleForm.invalid"
+            (click)="applyChanges()">{{ crudAction }} Schedule</button>
+    </div>
+</div>

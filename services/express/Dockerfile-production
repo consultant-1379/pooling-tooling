@@ -1,0 +1,20 @@
+FROM armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/node:12.12.0-alpine
+
+RUN mkdir -p /user/source/app
+
+WORKDIR /user/source/app
+
+COPY services/express/package.json /user/source/app
+
+RUN npm install \
+&& npm prune \
+&& npm cache clean --force
+
+COPY services/express /user/source/app
+
+RUN apk --update add --no-cache openssh bash \
+  && apk --update add --no-cache sshpass
+
+EXPOSE 3000
+
+CMD [ "npm", "start" ]

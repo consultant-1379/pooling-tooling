@@ -1,0 +1,224 @@
+{
+  "info": {
+      "_postman_id": "71e19d0b-ccd8-409d-993f-a523271121fd",
+      "name": "Requests",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+      {
+          "name": "GET /requests/",
+          "event": [
+              {
+                  "listen": "test",
+                  "script": {
+                      "exec": [
+                          "pm.test(\"GET /requests/\", function() {\r",
+                          "    var response = pm.response.json();    \r",
+                          "    pm.response.to.have.status(200);\r",
+                          "    pm.expect(response.length).greaterThan(0);\r",
+                          "});\r",
+                          ""
+                      ],
+                      "type": "text/javascript"
+                  }
+              }
+          ],
+          "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                  "raw": "http://localhost:3000/requests",
+                  "protocol": "http",
+                  "host": [
+                      "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                      "requests"
+                  ]
+              }
+          },
+          "response": []
+      },
+      {
+          "name": "GET /requests/:id",
+          "event": [
+              {
+                  "listen": "test",
+                  "script": {
+                      "exec": [
+                          "pm.test(\"GET /requests/:id\", function() {\r",
+                          "    var response = pm.response.json();    \r",
+                          "    pm.response.to.have.status(200);\r",
+                          "    pm.expect(response.length).eql(1);\r",
+                          "    pm.expect(response[0].id).eql(pm.environment.get(\"REQUEST_ONE_ID\"));\r",
+                          "});\r",
+                          ""
+                      ],
+                      "type": "text/javascript"
+                  }
+              }
+          ],
+          "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                  "raw": "http://localhost:3000/requests/:id",
+                  "protocol": "http",
+                  "host": [
+                      "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                      "requests",
+                      ":id"
+                  ],
+                  "variable": [
+                      {
+                          "key": "id",
+                          "value": "{{REQUEST_ONE_ID}}"
+                      }
+                  ]
+              }
+          },
+          "response": []
+      },
+      {
+          "name": "POST /requests/",
+          "event": [
+              {
+                  "listen": "test",
+                  "script": {
+                      "exec": [
+                          "pm.test(\"POST /requests/\", function() {\r",
+                          "    var response = pm.response.json();    \r",
+                          "    pm.response.to.have.status(201);\r",
+                          "    pm.expect(response).to.be.an('object');\r",
+                          "});\r",
+                          ""
+                      ],
+                      "type": "text/javascript"
+                  }
+              }
+          ],
+          "request": {
+              "method": "POST",
+              "header": [],
+              "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"poolName\": \"myPool\",\r\n    \"requestorDetails\": {\r\n        \"name\": \"dummyRequestorName\",\r\n        \"area\": \"dummyRequestorArea\"\r\n    },\r\n    \"status\": \"Pending\"\r\n, \"requestTimeout\": 620000\r\n}",
+                  "options": {
+                      "raw": {
+                          "language": "json"
+                      }
+                  }
+              },
+              "url": {
+                  "raw": "http://localhost:3000/requests/",
+                  "protocol": "http",
+                  "host": [
+                      "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                      "requests",
+                      ""
+                  ]
+              }
+          },
+          "response": []
+      },
+      {
+          "name": "PATCH /requests/:id",
+          "event": [
+              {
+                  "listen": "test",
+                  "script": {
+                      "exec": [
+                          "pm.test(\"PATCH /requests/:id\", function() {\r",
+                          "    var response = pm.response.json();    \r",
+                          "    pm.response.to.have.status(200);\r",
+                          "    pm.expect(response).to.be.an('object');\r",
+                          "});\r",
+                          ""
+                      ],
+                      "type": "text/javascript"
+                  }
+              }
+          ],
+          "request": {
+              "method": "PATCH",
+              "header": [],
+              "body": {
+                  "mode": "raw",
+                  "raw": "{ \"poolName\": \"newPoolName\" }",
+                  "options": {
+                      "raw": {
+                          "language": "json"
+                      }
+                  }
+              },
+              "url": {
+                  "raw": "http://localhost:3000/requests/:id",
+                  "protocol": "http",
+                  "host": [
+                      "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                      "requests",
+                      ":id"
+                  ],
+                  "variable": [
+                      {
+                          "key": "id",
+                          "value": "{{REQUEST_ONE_ID}}"
+                      }
+                  ]
+              }
+          },
+          "response": []
+      },
+      {
+          "name": "DELETE /requests/:id",
+          "event": [
+              {
+                  "listen": "test",
+                  "script": {
+                      "exec": [
+                          "pm.test(\"DELETE /requests/:id\", function() {\r",
+                          "    var response = pm.response\r",
+                          "    pm.response.to.have.status(204);\r",
+                          "});\r",
+                          ""
+                      ],
+                      "type": "text/javascript"
+                  }
+              }
+          ],
+          "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                  "raw": "http://localhost:3000/requests/:id",
+                  "protocol": "http",
+                  "host": [
+                      "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                      "requests",
+                      ":id"
+                  ],
+                  "variable": [
+                      {
+                          "key": "id",
+                          "value": "{{REQUEST_ONE_ID}}"
+                      }
+                  ]
+              }
+          },
+          "response": []
+      }
+  ]
+}

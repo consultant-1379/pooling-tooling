@@ -1,0 +1,78 @@
+.landing-page-font {
+  font-size: 18px;
+  line-height: normal;
+}
+
+.accordion-item-header {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  padding: 40px 0 5px;
+  font-size: 36.7px;
+  font-weight: 500;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.accordion-item-header:hover {
+  cursor: pointer;
+}
+
+mat-expansion-panel-header {
+  padding: 5px 0;
+}
+
+mat-panel-title {
+  margin: 5px;
+  font-weight: bolder;
+  font-size: 18px;
+  line-height: normal;
+}
+
+.list-group-item {
+  font-family: 'Ericsson Hilda', Helvetica, Arial, sans-serif;
+}
+
+.rpt-area {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+}
+
+.currently-used {
+  margin-top: 6px;
+}
+
+@media (max-width: 767px) {
+  .rpt-area .expansion-action-buttons {
+    display: none;
+  }
+}
+
+::ng-deep .mat-expansion-panel {
+  color: var(--ericsson-gray-1) !important;
+}
+
+::ng-deep .mat-expansion-panel-header-title {
+  color: var(--ericsson-gray-1) !important;
+}
+
+.mat-expansion-panel:not(.mat-expanded):hover {
+  filter: invert(1);
+}
+
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled='true']):hover {
+  background: none;
+}
+
+::ng-deep .mat-expansion-panel-body {
+  padding: 0 20px 6px !important;
+}
+
+::ng-deep .mat-expansion-panel-spacing {
+  margin: 2px 0 !important;
+}

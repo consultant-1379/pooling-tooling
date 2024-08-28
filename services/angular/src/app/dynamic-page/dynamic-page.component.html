@@ -1,0 +1,56 @@
+<div class="container dynamic-page-container">
+  <div [style.margin-top.px]="10" class="row">
+    <div class="container">
+      <ng-container *ngIf="poolName==='testEnvironmentViewIndex'">
+        <h4 class="table-title">{{tableTitle}}</h4>
+      </ng-container>
+      <ng-container *ngIf="poolName!=='testEnvironmentViewIndex'">
+        <h4 class="table-title">{{tableTitle}} in <b>{{poolName}}</b></h4>
+      </ng-container>
+      <table mat-table cdkDropList [cdkDropListDisabled]="dragDisabled" [dataSource]="dynamicDataSource" (cdkDropListDropped)="onCdkDrop($event)">
+        <ng-container *ngFor="let id of tableDisplayedColumnsIds; let i=index;" [matColumnDef]="id">
+          <th mat-header-cell *matHeaderCellDef class="col-standardWidth">{{tableDisplayedColumnNames[i]}}</th>
+
+          <ng-container *ngIf="tableDisplayedColumnsIds[i]==='properties'">
+            <td mat-cell *matCellDef="let environmentData" class="col-{{tableDisplayedColumnsIds[i]}}">
+              <app-dynamic-test-environment-properties [data]="environmentData[id]" [testEnvironmentName]="environmentData.name"
+                                                       [modalDisplayedColumnIds]="modalDisplayedColumnIds"
+                                                       [modalDisplayedColumnNames]="modalDisplayedColumnNames">
+              </app-dynamic-test-environment-properties>
+            </td>
+          </ng-container>
+
+          <ng-container *ngIf="tableDisplayedColumnsIds[i]==='testEnvironmentActionsMenu'">
+            <td mat-cell *matCellDef="let environmentData">
+              <app-test-environment-actions [testEnvironmentInfo]="environmentData">
+              </app-test-environment-actions>
+            </td>
+          </ng-container>
+
+          <ng-container *ngIf="tableDisplayedColumnsIds[i]==='comments'">
+            <td mat-cell *matCellDef="let environmentData" class="col-{{tableDisplayedColumnsIds[i]}}">
+              <app-test-environment-comments [testEnvironment]="environmentData">
+              </app-test-environment-comments>
+            </td>
+          </ng-container>
+
+          <ng-container *ngIf="tableDisplayedColumnsIds[i]==='stage'">
+            <td class="col-{{tableDisplayedColumnsIds[i]}}" mat-cell *matCellDef="let environmentData">
+              <div
+                *ngIf="environmentData.stage.length && environmentData.stage == 'Manual Reservation'">{{ environmentData.stage }}</div>
+              <a *ngIf="environmentData.stage.length && environmentData.stage != 'Manual Reservation'"
+                 [href]="environmentData.stage" target="_blank">{{ environmentData.stage }}</a>
+            </td>
+          </ng-container>
+
+          <ng-container>
+            <td mat-cell *matCellDef="let environmentData" class="col-{{tableDisplayedColumnsIds[i]}}">{{
+              environmentData[id] }}</td>
+          </ng-container>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="tableDisplayedColumnsIds" class="dynamic-table-header"></tr>
+        <tr mat-row *matRowDef="let row; columns: tableDisplayedColumnsIds;" class="draggable-table-row" cdkDrag></tr>
+      </table>
+    </div>
+  </div>
+</div>

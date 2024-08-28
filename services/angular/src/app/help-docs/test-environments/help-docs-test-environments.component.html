@@ -1,0 +1,170 @@
+<app-help-docs-navigation></app-help-docs-navigation>
+<div id="help-docs-container" class="container">
+    <h1>Test Environments</h1>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#purpose">Purpose</a></li>
+        <li><a href="#test-environment-table">Test Environments Table</a></li>
+        <li><a href="#change-status">Change Status</a></li>
+        <li><a href="#reorder-elements">Re-order Elements</a></li>
+        <li><a href="#copy-environment-names">Copy Environment Names</a></li>
+        <li><a href="#copy-additional-info">Copy Additional Info</a></li>
+        <li><a href="#comments-icons">Comments Icons</a></li>
+        <li><a href="#copy-comments">Copy Comments</a></li>
+    </ul>
+    <a class="anchor" name="overview"></a>
+    <h3>Overview</h3>
+    <hr>
+    <p>This page describes the Test Environments section in the Resource Pooling Tool.</p>
+    <p>It describes what the purpose of this feature is and how it works.</p>
+
+    <a class="anchor" name="purpose"></a>
+    <h3>Purpose</h3>
+    <hr>
+    <p>The purpose of having a test environments section in RPT is so that there can be a clear view of all test environments and
+        their state.</p>
+    <p>It provides the user of RPT a UI which clearly displays information about each environment.</p>
+
+    <a class="anchor" name="test-environment-table"></a>
+    <h3>Test Environments Table</h3>
+    <hr>
+    <p>The test environments table is where the test environments and the information related to each environment is displayed.
+    </p>
+    <p>The table is updated with the test environment live status from pipelines.</p>
+    <ul>
+        <li>
+            <b>Available:</b>
+            <p>The test environment is free and ready to use.</p>
+        </li>
+        <li>
+            <b>Reserved:</b>
+            <p>The test environment is currently being used, typically its running through a pipeline.</p>
+        </li>
+        <li>
+            <b>Quarantine:</b>
+            <p>The test environment is in a quarantine state. For a test environment to be in Quarantine state means
+            something is wrong with the test environment or something is failing. Typically, a test environment
+            will be placed in a Quarantine state as a result of a failed pipeline.</p>
+        </li>
+        <li>
+            <b>Standby:</b>
+            <p>A test environment in Standby will not be picked up to be used by CI/CD pipelines.
+            It will however be refreshed daily by a refresh pipeline triggered by RPT to keep it up to date.
+            If the sticky environment gets quarantined, the freshest Standby environment will become available.</p>
+        </li>
+        <li>
+            <b>Refreshing:</b>
+            <p>A test environment in the "Refreshing" state is currently being refreshed and should not be interrupted.</p>
+        </li>
+    </ul>
+    <p>Each test environment can be part of a pool. The name of the assigned pool is also displayed in the table</p>
+    <br>
+    <table>
+        <tr>
+            <th>Heading</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>The name of a test environment.</td>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td>The status a test environment is in: Available, Reserved, Quarantine, Standby or Refreshing.</td>
+        </tr>
+        <tr>
+            <td>Pools</td>
+            <td>The pools that that test environment is a part of.</td>
+        </tr>
+        <tr>
+            <td>Properties</td>
+            <td>This is a link that will open a modal with the information about the test environment properties.</td>
+        </tr>
+        <tr>
+            <td>Pipeline Stage</td>
+            <td>If a test environment is running through a pipeline, the current stage the test environment is on is displayed
+                here.</td>
+        </tr>
+        <tr>
+            <td>Additional Info</td>
+            <td>This provides the live status from pipelines and ownership of the test environment.
+                When provided it captures information about the current status and the agent responsible for initiating the change of status.
+            </td>
+        </tr>
+        <tr>
+            <td>Comments</td>
+            <td>This is a textarea which will allow a user to input other information they may want to
+                store about a test environment that will persist until overwritten.</td>
+        </tr>
+    </table>
+
+    <a class="anchor" name="change-status"></a>
+    <h3>Change Status</h3>
+    <hr>
+    <p>You may want to move a test environment to Available status to show it is ready to be used.</p>
+    <p>You may also realize there is a problem and you want to manually set it into Quarantine.</p>
+    <p>Lastly, you may want to use the test environment in a pipeline and therefore you must change the status to Reserved.</p>
+    <p>To do these actions:</p>
+    <ol>
+        <li>Click the three buttons under Actions in the test environment table</li>
+        <li>Hover over "Environment Actions"</li>
+        <li>Click the appropriate "Change Status" button</li>
+    </ol>
+
+    <a class="anchor" name="reorder-elements"></a>
+    <h3>Re-order Elements</h3>
+    <hr>
+    <p>You may want to re-order the test environments as they appear in the table.</p>
+    <p>A table row is draggable if the move cursor appears as you hover over the environment in the table.</p>
+    <p>To re-order the elements, simply drag and drop the selected test environment to the desired position in the table.</p>
+    <p>Please note that the ordering of the elements in the table has no impact on behavior of the system.</p>
+
+    <a class="anchor" name="copy-environment-names"></a>
+    <h3>Copy Environment Names</h3>
+    <hr>
+    <p>You may want to copy the name of a test environment to your clipboard.</p>
+    <p>This can be done in two ways:</p>
+    <ul>
+      <li><p>Right clicking the name of the test environment and selecting 'Copy'.</p></li>
+      <li><p>Opening the environment properties view and double-clicking the name of the test environment before selecting 'Copy'.</p></li>
+    </ul>
+
+    <a class="anchor" name="copy-additional-info"></a>
+    <h3>Copy Additional Info</h3>
+    <hr>
+    <p>You may want to copy the contents of 'Additional Info' to your clipboard.</p>
+    <p>This can be done by right clicking the the contents of the 'Additional Info' cell and selecting 'Copy'.</p>
+
+    <a class="anchor" name="copy-comments"></a>
+    <h3>Copy Comments</h3>
+    <hr>
+    <p>You may want to copy the contents of 'Comments' to your clipboard.</p>
+    <p>Please note that this can only be done while the 'Comments' is in edit mode.</p>
+    <p>You can enter edit mode by clicking the pen located to the right, and exit edit mode by clicking the tick.</p>
+
+    <a class="anchor" name="comments-icons"></a>
+    <h3>Comments Icons</h3>
+    <hr>
+    <ul>
+        <li>
+            <b>Edit comments (<mat-icon class="comments-icons">edit</mat-icon>) :</b>
+            <p>By clicking this, you enter edit mode and can now edit the content of 'Comments'.</p>
+        </li>
+        <li>
+            <b>Undo changes to comments (<mat-icon class="comments-icons">undo</mat-icon>) :</b>
+            <p>When clicking this icon, the content of 'Comments' will revert the changes made to it while in edit mode.</p>
+        </li>
+        <li>
+            <b>Confirm changes to comments (<mat-icon class="comments-icons">done</mat-icon>) :</b>
+            <p>Click to confirm any changes made to 'Comments' while in edit mode.</p>
+        </li>
+        <li>
+            <b>Expand comments (<mat-icon class="comments-icons">arrow_downward</mat-icon>) :</b>
+            <p>This is used to expand the 'Comments' section in the case that the content exceeds the default line length.</p>
+        </li>
+        <li>
+            <b>Collapse comments (<mat-icon class="comments-icons">arrow_upwards</mat-icon>) :</b>
+            <p>After expanding the 'Comments', you can then collapse the content by clicking this icon.</p>
+        </li>
+    </ul>
+</div>

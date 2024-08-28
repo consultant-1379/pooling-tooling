@@ -1,0 +1,105 @@
+{
+  "info": {
+      "_postman_id": "71e19d0b-ccd8-409d-993f-a523271121fd",
+      "name": "Requests",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+      {
+          "name": "POST /requests/",
+          "event": [
+              {
+                  "listen": "test",
+                  "script": {
+                      "exec": [
+                          "pm.test(\"POST /requests/\", function() {\r",
+                          "    var response = pm.response.json();    \r",
+                          "    pm.response.to.have.status(422);\r",
+                          "    pm.expect(response).to.be.an('object');\r",
+                          "});\r",
+                          ""
+                      ],
+                      "type": "text/javascript"
+                  }
+              }
+          ],
+          "request": {
+              "method": "POST",
+              "header": [],
+              "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"poolName\": \"myPool\",\r\n    \"requestorDetails\": {\r\n        \"name\": \"dummyRequestorName\",\r\n        \"area\": \"dummyRequestorArea\"\r\n    },\r\n    \"status\": \"Pending\"\r\n, \r\n    \"requestTimeout\": \"6200000\"\r\n}",
+                  "options": {
+                      "raw": {
+                          "language": "json"
+                      }
+                  }
+              },
+              "url": {
+                  "raw": "http://localhost:3000/requests/",
+                  "protocol": "http",
+                  "host": [
+                      "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                      "requests",
+                      ""
+                  ]
+              }
+          },
+          "response": []
+      },
+      {
+          "name": "PATCH /requests/:id",
+          "event": [
+              {
+                  "listen": "test",
+                  "script": {
+                      "exec": [
+                          "pm.test(\"PATCH /requests/:id\", function() {\r",
+                          "    var response = pm.response.json();    \r",
+                          "    pm.response.to.have.status(422);\r",
+                          "    pm.expect(response).to.be.an('object');\r",
+                          "});\r",
+                          ""
+                      ],
+                      "type": "text/javascript"
+                  }
+              }
+          ],
+          "request": {
+              "method": "PATCH",
+              "header": [],
+              "body": {
+                  "mode": "raw",
+                  "raw": "{ \"poolName\": \"\" }",
+                  "options": {
+                      "raw": {
+                          "language": "json"
+                      }
+                  }
+              },
+              "url": {
+                  "raw": "http://localhost:3000/requests/:id",
+                  "protocol": "http",
+                  "host": [
+                      "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                      "requests",
+                      ":id"
+                  ],
+                  "variable": [
+                      {
+                          "key": "id",
+                          "value": "{{REQUEST_ONE_ID}}"
+                      }
+                  ]
+              }
+          },
+          "response": []
+      }
+  ]
+}

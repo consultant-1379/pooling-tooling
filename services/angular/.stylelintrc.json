@@ -1,0 +1,43 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "property-no-vendor-prefix": null,
+    "value-no-vendor-prefix": null,
+    "at-rule-no-vendor-prefix": null,
+    "function-name-case": [
+      "lower",
+      {
+        "ignoreFunctions": ["someFunctions"]
+      }
+    ],
+    "value-keyword-case": [
+      "lower",
+      {
+        "ignoreKeywords": ["optimizeLegibility"]
+      }
+    ],
+    "font-family-no-missing-generic-family-keyword": [
+      true,
+      {
+        "ignoreFontFamilies": ["Ericsson Hilda", "Material Icons", "Ericsson Icons"]
+      }
+    ],
+    "selector-no-vendor-prefix": null,
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": ["/^ng.*$/"]
+      }
+    ],
+    "selector-class-pattern": "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$|^col-.*$|^modal.*$",
+    "string-quotes": "single",
+    "no-descending-specificity": null,
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["label-shown"]
+      }
+    ],
+    "max-line-length": 150
+  }
+}

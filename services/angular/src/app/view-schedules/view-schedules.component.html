@@ -1,0 +1,9 @@
+<app-dynamic-schedule-page
+[tableDisplayedColumnNames]="['Name' ,'Project Area', 'Environments ','Cron Schedule (GMT)',
+'Spinnaker Application', 'Spinnaker Pipeline',
+'Status', 'Full Info']"
+[tableDisplayedColumnsIds]="['scheduleName', 'scheduleOptions.projectArea', 'refreshData.itemsToScheduleIds', 'scheduleOptions.cronSchedule',
+'refreshData.spinnakerPipelineApplicationName', 'refreshData.spinnakerPipelineName',
+'scheduleEnabled', 'fullInfo']"
+[tableTitle]="'Schedules'">
+</app-dynamic-schedule-page>

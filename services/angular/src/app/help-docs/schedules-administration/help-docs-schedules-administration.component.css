@@ -1,0 +1,119 @@
+/* CORE */
+
+#help-docs-container {
+  padding-bottom: 48px;
+  line-height: normal;
+}
+
+.container {
+  width: 84%;
+  padding-right: 15px;
+  padding-left: 42px;
+  margin-left: 16%;
+}
+
+.anchor {
+  display: block;
+  position: relative;
+  top: -48px;
+  visibility: hidden;
+}
+
+img {
+  box-shadow: 0 0 3px var(--ericsson-gray-2);
+  margin-bottom: 12px;
+}
+
+/* TABLE */
+
+td {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+th {
+  font-size: 18px;
+}
+
+td,
+th {
+  border-right: 1px solid;
+  padding-left: 5px;
+}
+
+table {
+  font-size: 13px;
+  border-bottom: 0 solid var(--ericsson-gray-5);
+  border-top: 0 solid var(--ericsson-gray-5);
+  border: 2px solid;
+}
+
+tr {
+  border-top: 1px solid;
+}
+
+p {
+  font-size: 13px;
+}
+
+/* STEPS */
+
+.steps-heading {
+  font-size: 27.766px;
+  color: var(--ericsson-yellow);
+  font-weight: bolder;
+}
+
+.steps {
+  border-left: 9px solid var(--ericsson-yellow);
+  margin-left: 9px;
+}
+
+.step-number {
+  height: 27px;
+  width: 27px;
+  background-color: var(--ericsson-yellow);
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  font-size: 14px;
+  padding-top: 5px;
+  color: var(--ericsson-white);
+  margin-left: -18px;
+  margin-top: -1px;
+  margin-right: 10px;
+}
+
+.single-step {
+  font-size: 18px;
+}
+
+/* IMAGES */
+
+#user-roles-nav-bar-image {
+  width: 73%;
+}
+
+#user-roles-main-page-image {
+  width: 60%;
+}
+
+#user-roles-search-image {
+  width: 54%;
+}
+
+#user-roles-select-image {
+  width: 50%;
+}
+
+#user-roles-wait-for-update-image {
+  width: 50%;
+}
+
+#user-roles-success-image {
+  width: 50%;
+}
+
+#core-info-disabled-image {
+  width: 50%;
+}

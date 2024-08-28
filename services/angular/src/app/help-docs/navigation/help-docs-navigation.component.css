@@ -1,0 +1,69 @@
+.help-docs-navigation-normal-height {
+  position: absolute;
+  top: 195px;
+  width: 16%;
+  padding-top: 33px;
+}
+
+.help-docs-navigation-shorter-height {
+  position: fixed;
+  top: 50px;
+  width: 16%;
+  padding-top: 33px;
+}
+
+#navigation-list > li {
+  margin-bottom: 10px;
+}
+
+#navigation-list {
+  list-style-type: none;
+}
+
+#help-docs-header-bar {
+  height: 145px;
+  width: 100%;
+  user-select: none;
+  white-space: nowrap;
+  background-color: var(--ericsson-gray-4);
+}
+
+#help-docs-header-h1 {
+  font-size: 38px;
+  font-weight: 500;
+  padding-top: 38px;
+  text-align: center;
+}
+
+#go-to-top-button {
+  position: fixed;
+  width: 136px;
+  left: 39px;
+  font-size: 15px;
+  border-radius: 3px;
+  align-items: center;
+  display: flex;
+  padding: 7px 12px 7px 18px;
+  bottom: 4%;
+  border: 0;
+  background-color: var(--ericsson-gray-3);
+  visibility: hidden;
+  margin-bottom: 40px;
+}
+
+#go-to-top-button:hover {
+  cursor: pointer;
+  background-color: var(--ericsson-gray-2);
+}
+
+.fade-out {
+  visibility: hidden !important;
+  opacity: 0;
+  transition: visibility 0s linear 300ms, opacity 300ms;
+}
+
+.fade-in {
+  visibility: visible !important;
+  opacity: 1;
+  transition: visibility 0s linear 0s, opacity 300ms;
+}

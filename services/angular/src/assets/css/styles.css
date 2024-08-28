@@ -1,0 +1,251 @@
+@charset "utf-8";
+
+@import 'rptCustomAngularTheme.css';
+@import 'snackbar.css';
+@import 'draggableTable.css';
+
+@font-face {
+  font-family: EricssonHilda;
+  src: url('../../../node_modules/@eui/container/resources/fonts/EricssonHilda-Light.woff') format('truetype');
+}
+
+:root {
+  /* Primary blue defines the theme of Ericsson */
+  --ericsson-blue: #0082f0;
+  --ericsson-web-blue: #1174e6;
+  --ericsson-green: #0fc373;
+  --ericsson-yellow: #fad22d;
+  --ericsson-orange: #ff8c0a;
+  --ericsson-red: #ff3232;
+  --ericsson-purple: #af78d2;
+  --ericsson-gray-1: #242424;
+  --ericsson-gray-2: #767676;
+  --ericsson-gray-3: #a0a0a0;
+  --ericsson-gray-4: #e0e0e0;
+  --ericsson-gray-5: #f2f2f2;
+  --ericsson-white: #fafafa;
+
+  /* Text colors */
+  --main-text: #242424;
+  --secondary-text: #767676;
+  --link-blue: #0069c2;
+
+  /* UI colors */
+  --system-black: #0c0c0c;
+  --hover-blue: #0069c2;
+  --active-blue: #005499;
+  --hover-grey: #4a4a4a;
+  --active-grey: #3a3a3a;
+  --muted-grey: #f2f2f2;
+
+  /* RPT colors */
+  --rpt-teal: #23969a;
+  --rpt-eggplant: #33334d;
+  --rpt-purple: #601f70;
+  --rpt-brown: #54360d;
+  --rpt-lime: #a1c518;
+  --rpt-green: #32ab54;
+  --rpt-yellow: #b1ac0c;
+  --rpt-blue: #0082b8;
+
+  /* Sequential colors */
+  --e-seq-1: #808080, #2b2b2b;
+  --e-seq-2: #e75fa0, #88144c;
+  --e-seq-3: #23969a, #071d1d;
+  --e-seq-4: #b98327, #2d2009;
+  --e-seq-5: #976cf4, #3e0da9;
+  --e-seq-6: #e75d34, #561b0a;
+  --e-seq-7: #6688a4, #24323e;
+  --e-seq-8: #c86f6d, #652726;
+  --e-seq-9: #8087ad, #33384f;
+  --e-seq-10: #e24f72, #74132a;
+
+  /* RPT sizes */
+  --rpt-height: 48px;
+}
+
+html {
+  position: relative;
+  font-size: 10px !important;
+  line-height: 10px !important;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  scrollbar-width: thin;
+}
+
+body {
+  font-size: 1.2rem;
+  font-family: 'Ericsson Hilda', Helvetica, Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+  font-weight: bolder;
+  line-height: 1.2rem;
+  color: var(--active-grey);
+  background-color: var(--muted-grey);
+  margin: 0;
+  padding: 0;
+}
+
+/* Change font weight for Firefox only */
+@-moz-document url-prefix('') {
+  body {
+    font-family: 'Ericsson Hilda', Helvetica, Arial, sans-serif;
+    text-rendering: optimizeLegibility;
+    font-weight: 500;
+  }
+}
+
+.mat-table,
+.mat-button-toggle,
+.mat-form-field,
+.mat-input-element,
+.mat-dialog-title {
+  font-family: 'Ericsson Hilda', Helvetica, Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+table {
+  font-family: 'Ericsson Hilda', Helvetica, Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+  border-bottom: 1px solid var(--ericsson-gray-4);
+  border-top: 1px solid var(--ericsson-gray-4);
+  margin-bottom: 0;
+}
+
+button {
+  display: inline-block;
+  height: auto;
+  padding: 0.5em 1em;
+
+  /* Added to centre text inside button */
+  padding-top: 6px;
+  border-radius: 3px;
+  outline: 0;
+  font-size: 12px;
+
+  /* 16px down to 8px
+  This is to avoid resizing the table */
+  line-height: 8px;
+  vertical-align: middle;
+
+  /* UI SDK Default == 300
+  With reduced button size the button looked tacky with
+  300 as the font-weight */
+  font-weight: 500;
+  font-family: 'Ericsson Hilda', Helvetica, Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+  color: var(--ericsson-white);
+  background: var(--ericsson-blue);
+  border: 1px solid var(--hover-grey);
+}
+
+button.manage-session-button {
+  width: -webkit-fill-available;
+}
+
+button.create-session-button {
+  width: -webkit-fill-available;
+  background: var(--ericsson-blue);
+}
+
+button.create-session-button:hover {
+  background: var(--ericsson-white);
+  color: var(--hover-grey);
+  cursor: pointer;
+}
+
+button.manage-session-button:hover {
+  background: var(--ericsson-white);
+  color: var(--hover-grey);
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+input {
+  font-family: 'Ericsson Hilda', Helvetica, Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+.eb-ericsson-font {
+  font-family: 'Ericsson Hilda', Helvetica, Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+h1 {
+  font-size: 36.7416px;
+  margin-top: 36.7416px;
+  margin-bottom: 9.1854px;
+}
+
+h2 {
+  font-size: 27.1605px;
+  margin-top: 27.1605px;
+  margin-bottom: 6.7901px;
+}
+
+h3 {
+  font-size: 22.68px;
+  margin-top: 22.68px;
+  margin-bottom: 5.67px;
+}
+
+h4 {
+  font-size: 16.7657px;
+  margin-top: 16.7657px;
+  margin-bottom: 4.1914px;
+}
+
+p {
+  line-height: 1.5em;
+  color: var(--main-text);
+}
+
+a {
+  color: var(--link-blue);
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: var(--hover-grey);
+  outline: none;
+}
+
+a:focus {
+  box-shadow: none;
+}
+
+u {
+  text-decoration: none;
+  border-bottom: 2px solid var(--system-black);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: transparent;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted-grey);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ericsson-gray-3);
+}
+
+ol li,
+ul li {
+  padding: 2px 0;
+}

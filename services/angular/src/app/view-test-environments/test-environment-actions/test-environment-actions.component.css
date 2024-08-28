@@ -1,0 +1,28 @@
+button:focus {
+  outline: none;
+}
+
+.test-environment-actions-menu {
+  background-color: none;
+}
+
+.mat-snack-bar-container {
+  background: var(--ericsson-gray-1) !important;
+  color: var(--ericsson-white);
+}
+
+.info-btn {
+  font-size: 0.5em;
+}
+
+.info-btn-hidden {
+  display: none;
+}
+
+.pipeline-stage div {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+}

@@ -1,0 +1,23 @@
+FROM armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/node:12.19-alpine as base
+
+RUN mkdir -p /user/source/app
+
+WORKDIR /user/source/app
+
+COPY package.json /user/source/app
+
+# Install UI SDK 2.0 dependencies
+RUN npm config set @eui:registry https://arm.lmera.ericsson.se/artifactory/api/npm/proj-e-uisdk-npm \
+&& npm config set proxy=null \
+&& npm config set https-proxy=null
+
+RUN npm install \
+&& npm prune \
+&& npm cache clean --force
+
+COPY . /user/source/app/
+RUN npm run build-sandbox
+
+FROM armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/nginx:1.20.0-alpine
+WORKDIR /usr/share/nginx/html
+COPY --from=base /user/source/app/dist/RPT/* ./

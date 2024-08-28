@@ -1,0 +1,20 @@
+<div class="admin-pools-container">
+  <div class="pools-view">
+      <h1 class="pools-h1"> Pools Administration </h1>
+      <div>
+        <form [formGroup]="enterPoolForm">
+          <mat-form-field class="search-view" flatLabel="auto" appearance="outline">
+            <input matInput [(ngModel)]="givenPool" maxlength="30" placeholder="Enter Pool Name"
+              formControlName="poolNameControl">
+            <mat-hint align="end"><b>Case Sensitive</b></mat-hint>
+          </mat-form-field>
+          <br>
+          <br>
+          <button [disabled]="!enterPoolForm.valid" class="add-pool" mat-raised-button
+                  (click)="addPool()" color="primary">Add Pool</button>
+          <button [disabled]="!enterPoolForm.valid" class="remove-pool" mat-raised-button
+              (click)="removePool()" color="warn">Remove Pool</button>
+        </form>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+modelVersion: 2.0
+
+description: "Resource Pooling Tool: Precode Review Pipeline"
+
+properties:
+ - project-name: "rpt-precodereview"
+ - test-host: "localhost:81"
+ - build-services-path: ./precodereview/build_services.sh
+ - express-tests-path: ./precodereview/express_tests.sh
+ - express-analysis-path: ./precodereview/express_analysis.sh
+ - angular-tests-path: ./precodereview/angular_tests.sh
+ - angular-analysis-path: ./precodereview/angular_analysis.sh
+ - functional-tests-path: ./precodereview/functional_tests.sh
+
+ - cleanup-script-path: ./precodereview/clean_up.sh
+
+env:
+  - COMPOSE_PROJECT_NAME
+  - GIT_BRANCH
+  - GIT_CMD
+  - TB_FUNCTIONAL_USER
+  - TB_FUNCTIONAL_USER_PASSWORD
+  - TB_ARM_USER
+  - TB_ARM_USER_PASSWORD
+
+rules:
+  set-env-variables:
+    - task: set-compose-project-name
+      cmd: echo "rpttest" > .bob/env.COMPOSE_PROJECT_NAME
+    - task: set-git-branch
+      cmd: echo "temporary" > .bob/env.GIT_BRANCH
+    - task: set-git-cmd
+      cmd: echo "env -i git" > .bob/env.GIT_CMD
+
+  build-services:
+    - task: run-build-services-script
+      cmd: sh ${build-services-path} ${project-name}
+
+  express-test:
+    - task: run-express-tests
+      cmd: sh ${express-tests-path} ${project-name}
+
+  express-analysis:
+    - task: run-express-analysis
+      cmd: sh ${express-analysis-path} ${project-name}
+
+  angular-test:
+    - task: run-angular-tests
+      cmd: sh ${angular-tests-path} ${project-name}
+
+  angular-analysis:
+    - task: run-angular-analysis
+      cmd: sh ${angular-analysis-path} ${project-name}
+
+  functional-test:
+    - task: run-functional-tests
+      cmd: sh ${functional-tests-path} ${test-host}
+
+  clean-up:
+    - task: run-clean-up
+      cmd: sh ${cleanup-script-path} ${project-name}

@@ -1,0 +1,22 @@
+<div class="admin-schedules-container">
+  <div class="schedules-view">
+      <h1 class="schedules-h1"> Schedules Administration </h1>
+      <div>
+        <form [formGroup]="enterScheduleForm">
+          <mat-form-field class="search-view" flatLabel="auto" appearance="outline">
+            <input matInput [(ngModel)]="givenSchedule" maxlength="30" placeholder="Enter Schedule Name"
+              formControlName="scheduleNameControl">
+            <mat-hint align="end"><b>Case Sensitive</b></mat-hint>
+          </mat-form-field>
+          <br>
+          <br>
+          <button [disabled]="!enterScheduleForm.valid" class="add-schedule" mat-raised-button
+                  (click)="addSchedule()" color="primary">Add Schedule</button>
+          <button [disabled]="!enterScheduleForm.valid" class="edit-schedule" mat-raised-button
+              (click)="editSchedule()" color="">Edit Schedule</button>
+          <button [disabled]="!enterScheduleForm.valid" class="remove-schedule" mat-raised-button
+              (click)="removeSchedule()" color="warn">Remove Schedule</button>
+        </form>
+      </div>
+  </div>
+</div>

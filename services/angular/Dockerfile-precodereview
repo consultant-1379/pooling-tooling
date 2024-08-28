@@ -1,0 +1,22 @@
+FROM armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/cypress/base:12.19.0 as base
+
+RUN mkdir -p /user/source/app
+
+WORKDIR /user/source/app
+
+COPY package.json /user/source/app
+
+# Install UI SDK 2.0 dependencies
+RUN npm config set @eui:registry https://arm.lmera.ericsson.se/artifactory/api/npm/proj-e-uisdk-npm \
+&& npm config set proxy=null \
+&& npm config set https-proxy=null
+
+RUN npm install \
+&& npm prune \
+&& npm cache clean --force
+
+COPY . /user/source/app/
+
+EXPOSE 4200
+
+CMD [ "npm", "run-script", "start-precode" ]

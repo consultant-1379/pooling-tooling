@@ -1,0 +1,47 @@
+<div class="container add-edit-environment-main-form">
+  <a mat-icon-button (click)="closeDialogModal()" class="close-button" matTooltip="Close" mattooltipposition="above" matTooltipClass="example-tooltip-red">
+      <mat-icon class="icon-properties">cancel</mat-icon>
+  </a>
+  <h4 class="header-class">
+      {{ crudAction }} Environment: <b>{{data.testEnvironmentName}}</b>
+  </h4>
+  <div class="inner-add-edit-environment-form">
+      <form [formGroup]="addEditTestEnvironmentForm">
+          <div class="form-group">
+              <br>
+              <h2 class="category-header">Core Information</h2>
+              <hr>
+              <mat-label class="add-edit-test-environment-form-header">Pool</mat-label>
+              <ng-multiselect-dropdown class="poolSelect" [placeholder]="'Select Pool'" [data]="availablePools" [(ngModel)]="testEnvironment.pools"
+                [settings]="dropdownSettings" formControlName="pools">
+              </ng-multiselect-dropdown>
+              <h2 class="category-header">Cluster Properties</h2>
+              <hr>
+              <mat-label class="add-edit-test-environment-form-header">Product</mat-label>
+              <mat-form-field class="select-view" flatLabel="auto" appearance="outline">
+                  <input matInput [(ngModel)]="testEnvironment.properties.product"
+                      formControlName="product" placeholder="Enter product">
+              </mat-form-field>
+              <mat-label class="add-edit-test-environment-form-header">Platform Type</mat-label>
+              <mat-form-field class="select-view" flatLabel="auto" appearance="outline">
+                  <input matInput [(ngModel)]="testEnvironment.properties.platformType"
+                      formControlName="platformType" placeholder="Enter Platform Type">
+              </mat-form-field>
+              <mat-label class="add-edit-test-environment-form-header">To State (Version)</mat-label>
+              <mat-form-field class="select-view" flatLabel="auto" appearance="outline">
+                  <input matInput [(ngModel)]="testEnvironment.properties.version"
+                      formControlName="version" placeholder="Enter To State">
+              </mat-form-field>
+              <mat-label class="add-edit-test-environment-form-header">CCD Version</mat-label>
+              <mat-form-field class="select-view" flatLabel="auto" appearance="outline">
+                  <input matInput [(ngModel)]="testEnvironment.properties.ccdVersion"
+                      formControlName="ccdVersion" placeholder="Enter CCD Version">
+              </mat-form-field>
+          </div>
+      </form>
+  </div>
+  <div id="apply-button-section">
+      <button class="confirm w-100 button-height" mat-raised-button color="primary" [disabled]="addEditTestEnvironmentForm.invalid"
+          (click)="applyChanges()">{{ crudAction }} Environment</button>
+  </div>
+</div>

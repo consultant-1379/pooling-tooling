@@ -1,0 +1,67 @@
+def returnParametersForDsl() {
+    return [SLAVE: env.SLAVE]
+}
+
+def returnListOfRptPipelineJobs() {
+    def listOfRptPipelineJobs = []
+
+    listOfRptPipelineJobs = listOfRptPipelineJobs.plus('DSLScripts/rpt_pipeline_jobs/RptPreCodeReview.groovy')
+    listOfRptPipelineJobs = listOfRptPipelineJobs.plus('DSLScripts/rpt_pipeline_jobs/RptBuildAndPublish.groovy')
+    listOfRptPipelineJobs = listOfRptPipelineJobs.plus('DSLScripts/rpt_pipeline_jobs/RptStagingTests.groovy')
+    listOfRptPipelineJobs = listOfRptPipelineJobs.plus('DSLScripts/rpt_pipeline_jobs/RptStagingLoadTesting.groovy')
+
+    listOfRptPipelineJobs = listOfRptPipelineJobs.plus('DSLScripts/rpt_pipeline_generator/RptPipelineGenerator.groovy')
+    listOfRptPipelineJobs = listOfRptPipelineJobs.plus('DSLScripts/rpt_pipeline_updater/RptPipelineUpdater.groovy')
+
+    return listOfRptPipelineJobs
+}
+
+pipeline {
+    agent {
+        node {
+            label SLAVE
+        }
+    }
+
+    environment {
+        DSL_CLASSPATH = 'DSLScripts'
+    }
+
+    stages {
+        stage ('Validate required parameters set') {
+            when {
+                expression {
+                    env.SLAVE == null
+                }
+            }
+
+            steps {
+                error ('Required parameter(s) not set. Please provide a value for all required parameters')
+            }
+        }
+
+        stage ('Generate RPT Pipeline Jobs') {
+            steps {
+                jobDsl targets: returnListOfRptPipelineJobs().join('\n'),
+                additionalParameters: returnParametersForDsl(),
+                additionalClasspath: env.DSL_CLASSPATH
+            }
+        }
+
+        stage ('Update RPT List View') {
+            steps {
+                jobDsl targets: 'DSLScripts/views/RptView.groovy',
+                    additionalClasspath: env.DSL_CLASSPATH
+            }
+        }
+    }
+
+    post {
+        success {
+            build propagate: false, wait: false, job: 'resource-pooling-tool_Spinnaker_Pipeline_DSL_Updater'
+        }
+        always {
+            cleanWs()
+        }
+    }
+}

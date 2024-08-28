@@ -1,0 +1,30 @@
+<div class="container add-pool-main-form">
+  <a mat-icon-button (click)="closeDialogModal()" class="close-button" matTooltip="Close" mattooltipposition="above" matTooltipClass="example-tooltip-red">
+      <mat-icon class="icon-properties">cancel</mat-icon>
+  </a>
+  <h4 class="header-class">
+      {{ crudAction }} Pool: <b>{{data.poolName}}</b>
+  </h4>
+  <div class="inner-add-pool-form">
+      <form [formGroup]="addPoolForm">
+          <div class="form-group">
+              <br>
+              <h2 class="category-header">Pool Properties</h2>
+              <hr>
+              <mat-label class="add-pool-form-header">Creator Area</mat-label>
+              <ng-multiselect-dropdown [placeholder]="'Select Area'" [data]=testingAreas [(ngModel)]="pool.creatorDetails.area"
+                [settings]="dropdownSettings" formControlName="creatorArea">
+              </ng-multiselect-dropdown>
+              <mat-label class="add-pool-form-header">Creator Name</mat-label>
+              <mat-form-field class="select-view" flatLabel="auto" appearance="outline">
+                  <input matInput [(ngModel)]="pool.creatorDetails.name"
+                      formControlName="creatorName">
+              </mat-form-field>
+          </div>
+      </form>
+  </div>
+  <div id="apply-button-section">
+      <button class="confirm w-100 button-height" mat-raised-button color="primary" [disabled]="addPoolForm.invalid"
+          (click)="applyChanges()">{{ crudAction }} Pool</button>
+  </div>
+</div>

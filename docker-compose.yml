@@ -1,0 +1,32 @@
+version: '3.0'
+
+services:
+  angular:
+    build: services/angular
+
+  express:
+    build: services/express
+    restart: on-failure
+    environment:
+      NODE_ENV: DEV
+      TB_FUNCTIONAL_USER: ${TB_FUNCTIONAL_USER}
+      TB_FUNCTIONAL_USER_PASSWORD: ${TB_FUNCTIONAL_USER_PASSWORD}
+      TB_ARM_USER: ${TB_ARM_USER}
+      TB_ARM_USER_PASSWORD: ${TB_ARM_USER_PASSWORD}
+    links:
+      - database
+
+  database:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/mongo:4.2.2
+    ports:
+      - "27017:27017"
+
+  nginx:
+    build:
+      context: services/nginx
+      dockerfile: Dockerfile-local
+    ports:
+      - "80:80"
+    links:
+      - angular
+      - express

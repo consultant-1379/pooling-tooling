@@ -1,0 +1,110 @@
+<app-help-docs-navigation></app-help-docs-navigation>
+<div id="help-docs-container" class="container">
+    <h1>Schedules</h1>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#purpose">Purpose</a></li>
+        <li><a href="#schedule-table">Schedules Table</a></li>
+
+    </ul>
+    <a class="anchor" name="overview"></a>
+    <h3>Overview</h3>
+    <hr>
+    <p>This page describes the Schedules section in the Resource Pooling Tool.</p>
+    <p>It describes what the purpose of this feature is and how it works.</p>
+
+    <a class="anchor" name="purpose"></a>
+    <h3>Purpose</h3>
+    <hr>
+    <p>The purpose of having a schedules section in RPT is so that there can be a clear view of all schedules and
+        their information.</p>
+    <p>It provides the user of RPT a UI which clearly displays information about each schedule.</p>
+
+    <a class="anchor" name="schedule-table"></a>
+    <h3>Schedules Table</h3>
+    <hr>
+    <p>The schedules table is where the schedules and the information related to each schedule is displayed.
+    </p>
+    <br>
+    <table>
+        <tr>
+            <th>Heading</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>The name of a test environment.</td>
+        </tr>
+        <tr>
+            <td>Project Area</td>
+            <td>The project area a schedule is in.</td>
+        </tr>
+        <tr>
+            <td>Environments</td>
+            <td>The pools or test environments the schedule is associated with.</td>
+        </tr>
+        <tr>
+            <td>Cron Schedule</td>
+            <td>The cron schedule displays the frequency at which the schedule is executed.<br>
+                It is output in a readable form with the five fields of the command displayed in brackets (minute, hour, day of the month, month, day of the week)</td>
+        </tr>
+        <tr>
+            <td>Spinnaker Application</td>
+            <td>The Spinnaker application the schedule is associated with.
+                <br>The text is linked to the spinnaker application page.
+            </td>
+        </tr>
+        <tr>
+            <td>Spinnaker Pipeline</td>
+            <td>The Spinnaker pipeline that the schedule is associated with.
+                <br>The text is linked to the spinnaker pipeline page.
+            </td>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td>Specifies if the schedule is enabled or disabled</td>
+        </tr>
+        <tr>
+            <td>Type Of Items</td>
+            <td>Specifies the type of item the schedule checks.</td>
+        </tr>
+        <tr>
+            <td>Retention Policy Status</td>
+            <td>Displays if the schedule has a retention policy associated with it.
+            <p>The retention policy ensures that we keep a specified number of standby environments in RPT as specified in "No. Of Standby Envs to be Retained".
+            <br>After the number of standby environments are retained the rest of the environments are then compared to the specified number of recently released software versions, if the environment version is older it is then refreshed.
+            <br>If the retention policy is enabled the following properties will need to be populated.</p>
+            <ul>
+                <li>No. Of Standby Envs to be Retained</li>
+                <li>No. Of Software Release Versions For Comparison</li>
+            </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>No. Of Standby Envs to be Retained</td>
+            <td>States the number of standby environments will be excluded from being refreshed</td>
+        </tr>
+        <tr>
+            <td>No. Of Software Release Versions For Comparison</td>
+            <td>States the number of release versions to compare against and refreshes any environments on older versions.</td>
+        </tr>
+        <tr>
+            <td>Schedule Type</td>
+            <td>Displays the schedule type</td>
+        </tr>
+        <tr>
+            <td>Full Info</td>
+            <td>This is a link that will open a modal with all properties of the schedule.
+                <p>The following properties are viewable in this modal.</p>
+                <ul>
+                    <li>Type Of Items</li>
+                    <li>Retention Policy Status</li>
+                    <li>No. Of Standby Envs to be Retained</li>
+                    <li>No. Of Software Release Versions For Comparison</li>
+                    <li>Schedule Type</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+
+</div>

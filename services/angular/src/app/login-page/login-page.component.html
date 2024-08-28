@@ -1,0 +1,22 @@
+<article class="watermark">
+  <section class="watermark-container">
+    <p>RPT</p>
+    <span class="ericsson-logo"></span>
+  </section>
+</article>
+
+<form [formGroup]="loginForm">
+  <input tabindex="1" formControlName="signum" class="form-control custom-input" name="signum" value=""
+    type="text" autofocus="" autocomplete="off" placeholder="Username" required/>
+  <input tabindex="1" formControlName="password" class="form-control custom-input" name="password"
+    type="password" autocomplete="off" placeholder="Password" required/>
+  <button class="login-button" [disabled]="loginForm.invalid" (click)="login()" name="login" id="login-button">
+    Sign In
+  </button>
+
+  <div *ngIf="loginError" class="error-box">
+    <span class="pficon pficon-error-circle-o"></span>
+    <span class="kc-feedback-text warning-box-text">Invalid signum or password.</span>
+  </div>
+</form>
+

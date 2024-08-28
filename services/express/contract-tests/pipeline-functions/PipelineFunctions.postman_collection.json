@@ -1,0 +1,185 @@
+{
+  "info": {
+    "_postman_id": "eeeeb265-9cb3-41de-8943-e40aff6d43d5",
+    "name": "PipelineFunctions",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+      {
+          "name": "PATCH /pipeline-functions/test-environment-from-reserved-to-available/:name",
+          "event": [
+              {
+                  "listen": "test",
+                  "script": {
+                      "exec": [
+                          "pm.test(\"GET /pipeline-functions/test-environment-from-reserved-to-available/:name\", function() {\r",
+                          "    var response = pm.response.json();    \r",
+                          "    pm.response.to.have.status(200);\r",
+                          "    pm.expect(response).to.be.an('object');\r",
+                          "    pm.expect(response.status).eql(\"Available\");\r",
+                          "});\r",
+                          ""
+                      ],
+                      "type": "text/javascript"
+                  }
+              }
+          ],
+          "request": {
+              "method": "PATCH",
+              "header": [],
+              "url": {
+                  "raw": "http://localhost:3000/pipeline-functions/test-environment-from-reserved-to-available/:name",
+                  "protocol": "http",
+                  "host": [
+                      "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                      "pipeline-functions",
+                      "test-environment-from-reserved-to-available",
+                      ":name"
+                  ],
+                  "variable": [
+                      {
+                          "key": "name",
+                          "value": "{{NAME_OF_TEST_ENVIRONMENT_TWO_WITH_RESERVED_STATUS}}"
+                      }
+                  ]
+              }
+          },
+          "response": []
+      },
+      {
+          "name": "PATCH /pipeline-functions/test-environment-from-standby-to-available/:name",
+          "event": [
+              {
+                  "listen": "test",
+                  "script": {
+                      "exec": [
+                          "pm.test(\"GET /pipeline-functions/test-environment-from-standby-to-available/:name\", function() {\r",
+                          "    var response = pm.response.json();    \r",
+                          "    pm.response.to.have.status(200);\r",
+                          "    pm.expect(response).to.be.an('object');\r",
+                          "    pm.expect(response.status).eql(\"Available\");\r",
+                          "});\r",
+                          ""
+                      ],
+                      "type": "text/javascript"
+                  }
+              }
+          ],
+          "request": {
+              "method": "PATCH",
+              "header": [],
+              "url": {
+                  "raw": "http://localhost:3000/pipeline-functions/test-environment-from-standby-to-available/:name",
+                  "protocol": "http",
+                  "host": [
+                      "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                      "pipeline-functions",
+                      "test-environment-from-standby-to-available",
+                      ":name"
+                  ],
+                  "variable": [
+                      {
+                          "key": "name",
+                          "value": "{{NAME_OF_TEST_ENVIRONMENT_WITH_STANDBY_STATUS}}"
+                      }
+                  ]
+              }
+          },
+          "response": []
+      },
+      {
+          "name": "PATCH /pipeline-functions/test-environment-from-reserved-to-quarantined/:name",
+          "event": [
+              {
+                  "listen": "test",
+                  "script": {
+                      "exec": [
+                          "pm.test(\"GET /pipeline-functions/test-environment-from-reserved-to-quarantined/:name\", function() {\r",
+                          "    var response = pm.response.json();    \r",
+                          "    pm.response.to.have.status(200);\r",
+                          "    pm.expect(response).to.be.an('object');\r",
+                          "    pm.expect(response.status).eql(\"Quarantine\");\r",
+                          "});\r",
+                          ""
+                      ],
+                      "type": "text/javascript"
+                  }
+              }
+          ],
+          "request": {
+              "method": "PATCH",
+              "header": [],
+              "url": {
+                  "raw": "http://localhost:3000/pipeline-functions/test-environment-from-reserved-to-quarantined/:name",
+                  "protocol": "http",
+                  "host": [
+                      "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                      "pipeline-functions",
+                      "test-environment-from-reserved-to-quarantined",
+                      ":name"
+                  ],
+                  "variable": [
+                      {
+                          "key": "name",
+                          "value": "{{NAME_OF_TEST_ENVIRONMENT_ONE_WITH_RESERVED_STATUS}}"
+                      }
+                  ]
+              }
+          },
+          "response": []
+      },
+      {
+          "name": "PATCH /pipeline-functions/request-from-queued-to-aborted/:id",
+          "event": [
+              {
+                  "listen": "test",
+                  "script": {
+                      "exec": [
+                          "pm.test(\"GET /pipeline-functions/request-from-queued-to-aborted/:id\", function() {\r",
+                          "    var response = pm.response.json();    \r",
+                          "    pm.response.to.have.status(200);\r",
+                          "    pm.expect(response).to.be.an('object');\r",
+                          "    pm.expect(response.status).eql(\"Aborted\");\r",
+                          "});\r",
+                          ""
+                      ],
+                      "type": "text/javascript"
+                  }
+              }
+          ],
+          "request": {
+              "method": "PATCH",
+              "header": [],
+              "url": {
+                  "raw": "http://localhost:3000/pipeline-functions/request-from-queued-to-aborted/:id",
+                  "protocol": "http",
+                  "host": [
+                      "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                      "pipeline-functions",
+                      "request-from-queued-to-aborted",
+                      ":id"
+                  ],
+                  "variable": [
+                      {
+                          "key": "id",
+                          "value": "{{REQUEST_WITH_QUEUED_STATUS_ID}}"
+                      }
+                  ]
+              }
+          },
+          "response": []
+      }
+  ]
+}

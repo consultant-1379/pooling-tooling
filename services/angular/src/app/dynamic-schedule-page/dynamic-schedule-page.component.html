@@ -1,0 +1,85 @@
+<div class="container dynamic-page-container">
+  <div [style.margin-top.px]="10" class="row">
+    <div class="container">
+      <ng-container>
+        <h4 class="table-title">{{tableTitle}}</h4>
+      </ng-container>
+      <table mat-table [dataSource]="dynamicDataSource">
+        <ng-container *ngFor="let id of tableDisplayedColumnsIds; let i=index;" [matColumnDef]="id">
+          <th mat-header-cell *matHeaderCellDef class="col-standardWidth">{{tableDisplayedColumnNames[i]}}</th>
+          <div *ngIf="tableDisplayedColumnsIds[i]==='scheduleOptions.cronSchedule'">
+            <ng-container >
+              <td mat-cell *matCellDef="let environmentData"
+                  class="col-{{tableDisplayedColumnsIds[i]}}">
+                <div>{{cronHumanReadable(environmentData.scheduleOptions.cronSchedule)}} ("{{environmentData.scheduleOptions.cronSchedule}}")</div>
+              </td>
+            </ng-container>
+          </div>
+          <ng-container *ngIf="tableDisplayedColumnsIds[i]==='scheduleEnabled'">
+            <td mat-cell *matCellDef="let environmentData"
+                class="col-{{tableDisplayedColumnsIds[i]}}"
+                title="Schedule status">
+              <div *ngIf="environmentData.scheduleEnabled">Enabled</div>
+              <div *ngIf="!environmentData.scheduleEnabled">Disabled </div>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="tableDisplayedColumnsIds[i]==='scheduleOptions.projectArea'">
+            <td mat-cell *matCellDef="let environmentData" class="col-{{tableDisplayedColumnsIds[i]}}">
+              {{environmentData.scheduleOptions.projectArea}}
+            </td>
+          </ng-container>
+          <ng-container *ngIf="tableDisplayedColumnsIds[i]==='refreshData.itemsToScheduleIds'">
+            <td mat-cell *matCellDef="let environmentData" class="col-{{tableDisplayedColumnsIds[i]}}">
+              <div *ngIf="environmentData.typeOfItemsToSchedule == 'pool' ">
+                <tr>
+                  <a
+                    [routerLink]= "['/pools/'+ item]"
+                    *ngFor="let item of environmentData.refreshData.itemsToScheduleIds; let isLast=last">
+                    {{item }}{{isLast ? '' : ','}}
+                  </a>
+                </tr>
+              </div>
+              <div *ngIf="environmentData.typeOfItemsToSchedule == 'test-environment' ">
+                <a class="" *ngFor="let item of environmentData.refreshData.itemsToScheduleIds; let isLast=last"
+                class="test-environment-pointer">
+              {{item}}{{isLast ? '' : ','}}
+              </a>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container *ngIf="tableDisplayedColumnsIds[i]==='refreshData.spinnakerPipelineApplicationName'">
+            <td mat-cell *matCellDef="let environmentData" class="col-{{tableDisplayedColumnsIds[i]}}">
+              <a [href]= "'https://spinnaker.rnd.gic.ericsson.se/#/applications/' + environmentData.refreshData.spinnakerPipelineApplicationName + '/executions'" target="_blank" rel="noopener">
+                {{environmentData.refreshData.spinnakerPipelineApplicationName}}
+              </a>
+            </td>
+          </ng-container>
+
+          <ng-container *ngIf="tableDisplayedColumnsIds[i]==='refreshData.spinnakerPipelineName'">
+            <td mat-cell *matCellDef="let environmentData" class="col-{{tableDisplayedColumnsIds[i]}}">
+              <a [href]= "'https://spinnaker.rnd.gic.ericsson.se/#/applications/' + environmentData.refreshData.spinnakerPipelineApplicationName + '/executions?pipeline=' + environmentData.refreshData.spinnakerPipelineName" target="_blank" rel="noopener">
+                {{environmentData.refreshData.spinnakerPipelineName}}
+              </a>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="tableDisplayedColumnsIds[i]==='fullInfo'">
+            <td mat-cell *matCellDef="let environmentData" class="col-{{tableDisplayedColumnsIds[i]}}">
+              <app-dynamic-schedule-view-all-properties
+                [data]="environmentData"
+                [scheduleName]="environmentData.scheduleName">
+              </app-dynamic-schedule-view-all-properties>
+            </td>
+          </ng-container>
+          <ng-container>
+            <td mat-cell *matCellDef="let environmentData" class="col-{{tableDisplayedColumnsIds[i]}}">
+              {{environmentData[id]}}
+            </td>
+          </ng-container>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="tableDisplayedColumnsIds" class="dynamic-table-header"></tr>
+        <tr mat-row *matRowDef="let row; columns: tableDisplayedColumnsIds;" ></tr>
+      </table>
+    </div>
+  </div>
+</div>

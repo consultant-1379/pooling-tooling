@@ -1,0 +1,66 @@
+<nav class="navbar navbar-expand-lg eb-system-bar">
+    <a routerLink="/">
+        <div class="eb-system-bar-top-menu-name">
+            <div class="eb-system-bar-logo"></div>
+            <ng-container>
+                Resource Pooling Tool<b>{{ environmentModeText }}</b>
+            </ng-container>
+        </div>
+    </a>
+
+    <div *ngIf="isAuthenticated" id="nav-menu" class="navbar-toggler collapsed" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbar-nav-alt-markup"
+    aria-controls="navbar-nav-alt-markup" data-target="navbar-nav-alt-markup" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="icon material-icons">menu</i>
+    </div>
+
+    <div *ngIf="isAuthenticated" class="collapse navbar-collapse" id="navbar-nav-alt-markup">
+        <div class="nav navbar-nav">
+            <a class="nav-item nav-link" routerLink="/test-environments">Environments</a>
+        </div>
+        <div class="nav navbar-nav">
+            <a class="nav-item nav-link" routerLink="/schedules">Schedules</a>
+        </div>
+        <div class="nav navbar-nav links">
+            <ul class="drop main-drop">
+                <li class="dropdown nav-item nav-link">
+                    <a class="trigger-drop">Admin</a>
+                    <i class="material-icons arrow">keyboard_arrow_down</i>
+                    <ul class="drop">
+                        <li><a class="my-link" routerLink="/admin/test-environments/">Test Environments</a></li>
+                        <li><a class="my-link" routerLink="/admin/pools/">Pools</a></li>
+                        <li><a class="my-link" routerLink="/admin/schedules/">Schedules</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="nav navbar-nav links">
+            <ul class="drop main-drop">
+                <li class="dropdown nav-item nav-link">
+                    <a class="trigger-drop">Pools</a>
+                    <i class="material-icons arrow">keyboard_arrow_down</i>
+                    <ul class="drop">
+                        <ng-container *ngFor="let pool of poolsNames; let i = index" >
+                            <li><a class="my-link" routerLink="pools/{{poolsNames[i]}}">{{poolsNames[i]}}</a></li>
+                        </ng-container>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div *ngIf="isAuthenticated" class="system-bar-right-button">
+        <a routerLink="/help-docs/">Help Docs</a>
+        <div class="information-item">
+            <span class="rpt-version">v.{{ this.version }}</span>
+        </div>
+        <div class="information-item" #usernameElement>
+            <i class="icon icon-profile"></i>
+            <span class="username">{{ this.username }}</span>
+        </div>
+    </div>
+    <div *ngIf="isAuthenticated" class="system-bar-right-button logout-button" (click)="logOut()">
+        <div class="items-container">
+            <i class="icon icon-logout"></i>
+            <span>Log Out</span>
+        </div>
+    </div>
+</nav>

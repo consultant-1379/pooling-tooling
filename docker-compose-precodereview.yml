@@ -1,0 +1,113 @@
+version: '3.4'
+
+services:
+  angular:
+    build:
+      context: services/angular
+      dockerfile: Dockerfile-precodereview
+    volumes:
+      - angular_data:/user/source/app
+      - angular_node_modules:/user/source/app/node_modules
+
+  angular_client:
+    working_dir: /user/source/app
+    network_mode: host
+    build:
+      context: services/angular
+      dockerfile: Dockerfile-precodereview-client
+    volumes:
+      - angular_test_data:/user/source/app
+      - ${WORKSPACE}/:/usr/src/app/out
+      - ./VERSION:/user/source/app/VERSION
+
+  angular_sonar_scanner:
+    working_dir: /user/source/app
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/sonarsource/sonar-scanner-cli:4.5
+    command:
+      - -Dsonar.host.url=https://codeanalyzer2.internal.ericsson.com/
+      - -Dsonar.projectKey=pooling-tooling-angular
+      - -Dsonar.sources=src/
+      - -Dsonar.exclusions=node_modules/**,coverage/**,.scannerwork/**,.nyc_output/**,**/*.spec.js
+      - -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+      - -Dsonar.login=${SONARQUBE_TOKEN}
+    volumes:
+      - angular_data:/user/source/app
+      - ${WORKSPACE}/:/usr/src/app/out
+
+  express:
+    build: services/express
+    restart: on-failure
+    environment:
+      NODE_ENV: DEV
+      TB_FUNCTIONAL_USER: ${TB_FUNCTIONAL_USER}
+      TB_FUNCTIONAL_USER_PASSWORD: ${TB_FUNCTIONAL_USER_PASSWORD}
+      TB_ARM_USER: ${TB_ARM_USER}
+      TB_ARM_USER_PASSWORD: ${TB_ARM_USER_PASSWORD}
+    links:
+      - database
+    volumes:
+      - express_data:/user/source/app
+      - express_node_modules:/user/source/app/node_modules
+
+  express_client:
+    working_dir: /user/source/app
+    build:
+      context: services/express
+      dockerfile: Dockerfile-precodereview
+    environment:
+      NODE_ENV: DEV
+      TB_FUNCTIONAL_USER: ${TB_FUNCTIONAL_USER}
+      TB_FUNCTIONAL_USER_PASSWORD: ${TB_FUNCTIONAL_USER_PASSWORD}
+      TB_ARM_USER: ${TB_ARM_USER}
+      TB_ARM_USER_PASSWORD: ${TB_ARM_USER_PASSWORD}
+    links:
+      - database
+    volumes:
+      - express_data:/user/source/app
+
+  express_sonar_scanner:
+    working_dir: /user/source/app
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/sonarsource/sonar-scanner-cli:5.0
+    command:
+      - -Dsonar.host.url=https://codeanalyzer2.internal.ericsson.com/
+      - -Dsonar.projectKey=pooling-tooling-express
+      - -Dsonar.sources=./
+      - -Dsonar.exclusions=node_modules/**,coverage/**,.scannerwork/**,.nyc_output/**,**/*.spec.js,**/logger.js,**/*server.js,
+      - -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
+      - -Dsonar.login=${SONARQUBE_TOKEN}
+    volumes:
+      - express_data:/user/source/app
+      - ${WORKSPACE}/:/usr/src/app/out
+
+  database:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/mongo:4.2.2
+    ports:
+      - "27028:27017"
+
+  nginx:
+    build:
+      context: services/nginx
+      dockerfile: Dockerfile-precodereview
+    ports:
+      - "81:80"
+    links:
+      - angular
+      - express
+
+  nodeExporter:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/prom/node-exporter:v1.1.2
+
+  cAdvisor:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/google/cadvisor:v0.33.0
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+
+volumes:
+  angular_data:
+  angular_node_modules:
+  angular_test_data:
+  express_data:
+  express_node_modules:

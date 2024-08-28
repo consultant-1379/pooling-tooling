@@ -1,0 +1,1348 @@
+swagger: '2.0'
+info:
+  description: 'Resource Pooling Tool (RPT) is a tool which was created with the initial scope of efficiently managing Kubernetes based environments for use within the Aeonic program. However, due to the generic way RPT is designed, it can effectively be used to manage the state of any resources that would otherwise need to be tracked and managed through confluence pages or other manual means. If this interests you, please contact Thunderbee about using RPT to manage your resources.'
+  version: '1.2.97'
+  title: 'Resource Pooling Tool (RPT)'
+  contact:
+    email: 'PDLENMCOUN@pdl.internal.ericsson.com'
+host: 'rpt-staging.ews.gic.ericsson.se'
+basePath: '/api'
+tags:
+  - name: 'auth'
+    description: 'Endpoints related to authentication'
+  - name: 'pipeline-functions'
+    description: 'Endpoints related to pipeline functions'
+  - name: 'pools'
+    description: 'Endpoints related to pools'
+  - name: 'requests'
+    description: 'Endpoints related to requests'
+  - name: 'schedules'
+    description: 'Endpoints related to schedules'
+  - name: 'test-environments'
+    description: 'Endpoints related to Test Environments'
+  - name: 'ui-functions'
+    description: 'Endpoints related to UI functions'
+schemes:
+  - 'https'
+paths:
+  /auth/login:
+    post:
+      tags:
+        - 'auth'
+      summary: 'Authentication route'
+      description: 'Login route used by Users to authenticate'
+      consumes:
+        - 'application/json'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'Authentication object required to verify login information'
+          required: true
+          schema:
+            $ref: '#/definitions/Login'
+      responses:
+        '200':
+          description: 'Login success or fail'
+  /pipeline-functions/test-environment-from-reserved-to-quarantined/{name}:
+    patch:
+      tags:
+        - 'pipeline-functions'
+      summary: 'Update state of named Test Environment from reserved to quarantine'
+      description: 'Changes the state of Test Environment from reserved to quarantine'
+      consumes:
+        - 'application/json'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'name'
+          description: 'Name of the Test Environment to be updated'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully updated Test Environment state from reserved to quarantine'
+          schema:
+            $ref: '#/definitions/TestEnvironment'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /pipeline-functions/test-environment-from-reserved-to-available/{name}:
+    patch:
+      tags:
+        - 'pipeline-functions'
+      summary: 'Update state of named Test Environment from reserved to available'
+      description: 'Changes the state of Test Environment from reserved to available'
+      consumes:
+        - 'application/json'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'name'
+          description: 'Name of the Test Environment to be updated'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully updated Test Environment state from reserved to quarantine'
+          schema:
+            $ref: '#/definitions/TestEnvironment'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /pipeline-functions/test-environment-from-standby-to-available/{name}:
+    patch:
+      tags:
+        - 'pipeline-functions'
+      summary: 'Update state of named Test Environment from standby to available'
+      description: 'Changes the state of Test Environment from standby to available'
+      consumes:
+        - 'application/json'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'name'
+          description: 'Name of the Test Environment to be updated'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully updated Test Environment state from reserved to quarantine'
+          schema:
+            $ref: '#/definitions/TestEnvironment'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /pipeline-functions/request-from-queued-to-aborted/{id}:
+    patch:
+      tags:
+        - 'pipeline-functions'
+      summary: 'Update state of identified Test Environment from queued to aborted'
+      description: 'Changes the state of Test Environment from queued to aborted'
+      consumes:
+        - 'application/json'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Test Environment to be updated'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully updated Test Environment state from reserved to quarantine'
+          schema:
+            $ref: '#/definitions/TestEnvironment'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /pools:
+    get:
+      tags:
+        - 'pools'
+      summary: 'Retrieve a list of all Pools'
+      description: 'Obtain all Pools currently stored in the database'
+      produces:
+        - 'application/json'
+      responses:
+        '200':
+          description: 'Successfully retrieved a list of all Pools'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Pool'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+    post:
+      tags:
+        - 'pools'
+      summary: 'Creates a new Pool'
+      description: 'Persists a new Pool in the database'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      responses:
+        '201':
+          description: 'Successfully created a new Pool'
+          schema:
+            $ref: '#/definitions/Pool'
+        '400':
+          description: 'Pool information is empty'
+          schema:
+            $ref: '#/definitions/BadRequestError'
+        '404':
+          description: 'Pool Not Found'
+          schema:
+            $ref: '#/definitions/NotFoundError'
+        '409':
+          description: 'A pool named ${poolInfo.poolName} already exists. Not creating new pool with the same name.'
+          schema:
+            $ref: '#/definitions/ConflictError'
+        '422':
+          description: 'The Entity does not match the Schema'
+          schema:
+            $ref: '#/definitions/ZodError'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/PoolError'
+  /pools/{id}:
+    get:
+      tags:
+        - 'pools'
+      summary: 'Retrieve a Pool according to the specified ID'
+      description: 'Obtain all pools currently stored in the database with that specific ID'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Pool to be obtained'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully retrieved a Pool with specified ID'
+          schema:
+            $ref: '#/definitions/Pool'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+    patch:
+      tags:
+        - 'pools'
+      summary: 'Update a Pool according to the specified ID'
+      description: 'Update all pools currently stored in the database with that specific ID'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Pool to be updated'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully updated Pool with specific ID'
+          schema:
+            $ref: '#/definitions/Pool'
+        '400':
+          description: 'Pool entity must use array for assignedTestEnvironmentIds.'
+          schema:
+            $ref: '#/definitions/BadRequestError'
+        '404':
+          description: 'Pool Not Found'
+          schema:
+            $ref: '#/definitions/NotFoundError'
+        '409':
+          description: 'A pool named ${poolInfo.poolName} already exists. Not creating new pool with the same name.'
+          schema:
+            $ref: '#/definitions/ConflictError'
+        '422':
+          description: 'The Entity does not match the Schema'
+          schema:
+            $ref: '#/definitions/ZodError'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/PoolError'
+    delete:
+      tags:
+        - 'pools'
+      summary: 'Delete a Pool according to the specified ID'
+      description: 'Delete all pools currently stored in the database with that specific ID'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Pool to be deleted'
+          type: 'string'
+          required: true
+      responses:
+        '204':
+          description: 'Successfully deleted Pool with specified ID'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /pools/name/{name}:
+    get:
+      tags:
+        - 'pools'
+      summary: 'Retrieve a Pool according to the specified name'
+      description: 'Obtain all pools currently stored in the database with that specific name'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'name'
+          description: 'Name of the Pool to be obtained'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully retrieved a Pool with specified name'
+          schema:
+            $ref: '#/definitions/Pool'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /requests:
+    get:
+      tags:
+        - 'requests'
+      summary: 'Retrieve a list of all Requests'
+      description: 'Obtain all Request currently stored in the database'
+      produces:
+        - 'application/json'
+      responses:
+        '200':
+          description: 'Successfully retrieved a list of all requests'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Request'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+    post:
+      tags:
+        - 'requests'
+      summary: 'Creates a new Request'
+      description: 'Persists a new Request in the database'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      responses:
+        '201':
+          description: 'Successfully created a new Request'
+          schema:
+            $ref: '#/definitions/Request'
+        '400':
+          description: 'When making a request, not every required property was provided.'
+          schema:
+            $ref: '#/definitions/BadRequestError'
+        '422':
+          description: 'The Entity does not match the Schema'
+          schema:
+            $ref: '#/definitions/ZodError'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /requests/{id}:
+    get:
+      tags:
+        - 'requests'
+      summary: 'Retrieve a Request according to the specified ID'
+      description: 'Obtain all Requests currently stored in the database with that specific ID'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Request to be obtained'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully retrieved a list of all Pools'
+          schema:
+            $ref: '#/definitions/Request'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+    patch:
+      tags:
+        - 'requests'
+      summary: 'Update a Request according to the specified ID'
+      description: 'Update all Requests currently stored in the database with that specific ID'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Request to be updated'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully updated Request with specified ID'
+          schema:
+            $ref: '#/definitions/Request'
+        '400':
+          description: 'When making a request, not every required property was provided.'
+          schema:
+            $ref: '#/definitions/BadRequestError'
+        '404':
+          description: 'Object Not Found'
+          schema:
+            $ref: '#/definitions/NotFoundError'
+        '422':
+          description: 'The Entity does not match the Schema'
+          schema:
+            $ref: '#/definitions/ZodError'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+    delete:
+      tags:
+        - 'requests'
+      summary: 'Delete a Request according to the specified ID'
+      description: 'Delete all Requests currently stored in the database with that specific ID'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Request to be deleted'
+          type: 'string'
+          required: true
+      responses:
+        '204':
+          description: 'Successfully deleted Request with specified ID'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /schedules:
+    get:
+      tags:
+        - 'schedules'
+      summary: 'Retrieve a list of all Schedules'
+      description: 'Obtain all Schedules currently stored in the database'
+      produces:
+        - 'application/json'
+      responses:
+        '200':
+          description: 'Successfully retrieved a list of all Schedules'
+          schema:
+            $ref: '#/definitions/Schedule'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+    post:
+      tags:
+        - 'schedules'
+      summary: 'Creates a new Schedule'
+      description: 'Persists a new Schedule in the database'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      responses:
+        '201':
+          description: 'Successfully created a new Schedule'
+          schema:
+            $ref: '#/definitions/Schedule'
+        '400':
+          description: 'Schedule information is empty'
+          schema:
+            $ref: '#/definitions/BadRequestError'
+        '409':
+          description: 'A schedule named ${scheduleInfo.scheduleName} already exists. Not creating new schedule with the same name.'
+          schema:
+            $ref: '#/definitions/ConflictError'
+        '422':
+          description: 'The Entity does not match the Schema'
+          schema:
+            $ref: '#/definitions/ZodError'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /schedules/name/{name}:
+    get:
+      tags:
+        - 'schedules'
+      summary: 'Retrieve a Schedule according to the specified name'
+      description: 'Obtain all Schedules currently stored in the database with that specific name'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'name'
+          description: 'Name of the Schedule to be obtained'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully retrieved a Schedule according to specified ID'
+          schema:
+            $ref: '#/definitions/Schedule'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /schedules/{id}:
+    patch:
+      tags:
+        - 'schedules'
+      summary: 'Update a Schedule according to the specified ID'
+      description: 'Update all Schedules currently stored in the database with that specific ID'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Schedule to be updated'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully updated schedule'
+          schema:
+            $ref: '#/definitions/Schedule'
+        '400':
+          description: 'Schedule information is empty'
+          schema:
+            $ref: '#/definitions/BadRequestError'
+        '404':
+          description: 'Schedule not found'
+          schema:
+            $ref: '#/definitions/NotFoundError'
+        '409':
+          description: 'A schedule named ${scheduleInfo.scheduleName} already exists. Cannot update schedule with the same name'
+          schema:
+            $ref: '#/definitions/ConflictError'
+        '422':
+          description: 'The Entity does not match the Schema'
+          schema:
+            $ref: '#/definitions/ZodError'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+    delete:
+      tags:
+        - 'schedules'
+      summary: 'Delete a Schedule according to the specified ID'
+      description: 'Delete all Schedules currently stored in the database with that specific ID'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Schedule to be deleted'
+          type: 'string'
+          required: true
+      responses:
+        '204':
+          description: 'Successfully deleted Schedule with specified ID'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /test-environments:
+    get:
+      tags:
+        - 'test-environments'
+      summary: 'Retrieve a list of all Test Environments'
+      description: 'Obtain all Test Environments currently stored in the database'
+      produces:
+        - 'application/json'
+      responses:
+        '200':
+          description: 'Successfully retrieved a list of all Test Environments'
+          schema:
+            type: 'array'
+            items:
+              $ref: '#/definitions/TestEnvironment'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+    post:
+      tags:
+        - 'test-environments'
+      summary: 'Creates a new Test Environment'
+      description: 'Persists a new Test Environment in the database'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      responses:
+        '201':
+          description: 'Successfully created a new Test Environment'
+          schema:
+            $ref: '#/definitions/TestEnvironment'
+        '400':
+          description: 'Test Environment information is empty'
+          schema:
+            $ref: '#/definitions/BadRequestError'
+        '409':
+          description: 'A test environment already exists with the name ${name}'
+          schema:
+            $ref: '#/definitions/ConflictError'
+        '422':
+          description: 'The Entity does not match the Schema'
+          schema:
+            $ref: '#/definitions/ZodError'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /test-environments/sorted:
+    get:
+      tags:
+        - 'test-environments'
+      summary: 'Retrieve a list of all Test Environments sorted by Test Environment view index'
+      description: 'Obtain all Test Environments currently stored in the database sorted by Test Environment view index'
+      produces:
+        - 'application/json'
+      responses:
+        '200':
+          description: 'Successfully retrieved a list of all Test Environments sorted by Test Environment view index'
+          schema:
+            type: 'array'
+            items:
+              $ref: '#/definitions/TestEnvironment'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /test-environments/{id}:
+    get:
+      tags:
+        - 'test-environments'
+      summary: 'Retrieve a Test Environment by specified ID'
+      description: 'Obtain all Test Environments currently stored in the database with specified ID'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Test Environment to be obtained'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully retrieved a Test Environment by specified ID'
+          schema:
+            $ref: '#/definitions/TestEnvironment'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+    patch:
+      tags:
+        - 'test-environments'
+      summary: 'Update a Pool according to the specified ID'
+      description: 'Update all Test Environments currently stored in the database with that specific ID'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Test Environment to be updated'
+          type: 'string'
+          required: true
+        - in: 'body'
+          name: 'body'
+          description: 'Body of the Test Environment to be updated'
+          schema:
+            $ref: '#/definitions/TestEnvironment'
+      responses:
+        '200':
+          description: 'Successfully updated a Test Environments specified by ID'
+          schema:
+            $ref: '#/definitions/TestEnvironment'
+        '400':
+          description: 'No pools were provided when making test environment'
+          schema:
+            $ref: '#/definitions/BadRequestError'
+        '404':
+          description: 'Test Environment not found'
+          schema:
+            $ref: '#/definitions/NotFoundError'
+        '409':
+          description: 'A test environment named ${changes.name} already exists. Can not update test environment with the same name.'
+          schema:
+            $ref: '#/definitions/ConflictError'
+        '422':
+          description: 'The Entity does not match the Schema'
+          schema:
+            $ref: '#/definitions/ZodError'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+    delete:
+      tags:
+        - 'test-environments'
+      summary: 'Delete a Test Environment according to the specified ID'
+      description: 'Delete all Test Environments currently stored in the database with that specific ID'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Test Environment to be deleted'
+          type: 'string'
+          required: true
+      responses:
+        '204':
+          description: 'Successfully deleted Test Environment with specified ID'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /test-environments/name/{name}:
+    get:
+      tags:
+        - 'test-environments'
+      summary: 'Retrieve a Test Environment by specified name'
+      description: 'Obtain all Test Environments currently stored in the database with specified name'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'name'
+          description: 'Name of the Test Environment to be obtained'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully retrieved a Test Environment by specified name'
+          schema:
+            $ref: '#/definitions/TestEnvironment'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /test-environments/pools/{pool}:
+    get:
+      tags:
+        - 'test-environments'
+      summary: 'Retrieve a list of all Test Environments assigned to the specified pool'
+      description: 'Obtain all Test Environments currently stored in the database assigned to the specified pool'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'pool'
+          description: 'Name of the Pool to which the Test Environments belong'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully retrieved a list of all Test Environments assigned to the specified pool'
+          schema:
+            type: 'array'
+            items:
+              $ref: '#/definitions/TestEnvironment'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /test-environments/pools/{pool}/sorted:
+    get:
+      tags:
+        - 'test-environments'
+      summary: 'Retrieve a list of all Test Environments assigned to the specified Pool sorted by Pool view index'
+      description: 'Obtain all Test Environments currently stored in the database assigned to the specified Pool sorted by Pool view index'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'pool'
+          description: 'Name of the Pool to which the Test Environments belong'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully retrieved a list of all Test Environments assigned to the specified Pool sorted by Pool view index'
+          schema:
+            type: 'array'
+            items:
+              $ref: '#/definitions/TestEnvironment'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /test-environments/status/{status}:
+    get:
+      tags:
+        - 'test-environments'
+      summary: 'Retrieve a list of all Test Environments according to the specified status'
+      description: 'Obtain all Test Environments currently stored in the database according to the specified status'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'status'
+          description: 'Status of the Test Environments to be obtained'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully retrieved a list of all Test Environments according to the specified status'
+          schema:
+            type: 'array'
+            items:
+              $ref: '#/definitions/TestEnvironment'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /test-environments/get-freshest-test-environment/{ids}:
+    get:
+      tags:
+        - 'test-environments'
+      summary: 'Retrieve the freshest Test Environment from the provided selection of specified IDs'
+      description: 'Obtain freshest Test Environment currently stored in the database according to the specified set of IDs'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'ids'
+          description: 'ID of the Pool to be updated'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully retrieved freshest Test Environment from set of specified IDs'
+          schema:
+            $ref: '#/definitions/TestEnvironment'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /test-environment-from-quarantined-to-reserved/{id}:
+    patch:
+      tags:
+        - 'ui-functions'
+      summary: 'Update a Test Environment state from quarantined to reserved according to the specified ID'
+      description: 'Update all Test Environments currently stored in the database with that specific ID from quarantined to reserved'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Test Environment to be updated'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully updated state of Test Environment from quarantined to reserved'
+          schema:
+            $ref: '#/definitions/TestEnvironment'
+        '404':
+          description: 'Retrieved test environment is undefined or the object is empty'
+          schema:
+            $ref: '#/definitions/NotFoundError'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /test-environment-from-quarantined-to-available/{id}:
+    patch:
+      tags:
+        - 'ui-functions'
+      summary: 'Update a Test Environment state from quarantined to available according to the specified ID'
+      description: 'Update all Test Environments currently stored in the database with that specific ID from quarantined to available'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Test Environment to be updated'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully updated state of Test Environment from quarantined to available'
+          schema:
+            $ref: '#/definitions/TestEnvironment'
+        '404':
+          description: 'Retrieved test environment is undefined or the object is empty'
+          schema:
+            $ref: '#/definitions/NotFoundError'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /test-environment-from-reserved-to-quarantined/{id}:
+    patch:
+      tags:
+        - 'ui-functions'
+      summary: 'Update a Test Environment state from reserved to quarantined according to the specified ID'
+      description: 'Update all Test Environments currently stored in the database with that specific ID from reserved to quarantined'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Test Environment to be updated'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully updated state of Test Environment from reserved to quarantined'
+          schema:
+            $ref: '#/definitions/TestEnvironment'
+        '404':
+          description: 'Retrieved test environment is undefined or the object is empty'
+          schema:
+            $ref: '#/definitions/NotFoundError'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /test-environment-from-reserved-to-available/{id}:
+    patch:
+      tags:
+        - 'ui-functions'
+      summary: 'Update a Test Environment state from reserved to available according to the specified ID'
+      description: 'Update all Test Environments currently stored in the database with that specific ID from reserved to available'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Test Environment to be updated'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully updated state of Test Environment from reserved to available'
+          schema:
+            $ref: '#/definitions/TestEnvironment'
+        '404':
+          description: 'Retrieved test environment is undefined or the object is empty'
+          schema:
+            $ref: '#/definitions/NotFoundError'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /test-environment-from-standby-to-quarantine/{id}:
+    patch:
+      tags:
+        - 'ui-functions'
+      summary: 'Update a Test Environment state from standby to quarantine according to the specified ID'
+      description: 'Update all Test Environments currently stored in the database with that specific ID from standby to quarantine'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Test Environment to be updated'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully updated state of Test Environment from standby to quarantine'
+          schema:
+            $ref: '#/definitions/TestEnvironment'
+        '404':
+          description: 'Retrieved test environment is undefined or the object is empty'
+          schema:
+            $ref: '#/definitions/NotFoundError'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /test-environment-from-standby-to-reserved/{id}:
+    patch:
+      tags:
+        - 'ui-functions'
+      summary: 'Update a Test Environment state from standby to reserved according to the specified ID'
+      description: 'Update all Test Environments currently stored in the database with that specific ID from standby to reserved'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Test Environment to be updated'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully updated state of Test Environment from standby to reserved'
+          schema:
+            $ref: '#/definitions/TestEnvironment'
+        '404':
+          description: 'Retrieved test environment is undefined or the object is empty'
+          schema:
+            $ref: '#/definitions/NotFoundError'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+  /test-environment-from-standby-to-refreshing/{id}:
+    patch:
+      tags:
+        - 'ui-functions'
+      summary: 'Update a Test Environment state from standby to refreshing according to the specified ID'
+      description: 'Update all Test Environments currently stored in the database with that specific ID from standby to refreshing'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'id'
+          description: 'ID of the Test Environment to be updated'
+          type: 'string'
+          required: true
+      responses:
+        '200':
+          description: 'Successfully updated state of Test Environment from standby to refreshing'
+          schema:
+            $ref: '#/definitions/TestEnvironment'
+        '404':
+          description: 'Retrieved test environment is undefined or the object is empty'
+          schema:
+            $ref: '#/definitions/NotFoundError'
+        '500':
+          description: 'An error has occurred'
+          schema:
+            $ref: '#/definitions/TestEnvironmentError'
+definitions:
+  TestEnvironmentError:
+    type: 'object'
+    properties:
+      error:
+        type: 'string'
+        description: 'Error message provided by the server'
+        example: 'Retrieved Test Environment is undefined or the object is empty'
+  PoolError:
+    type: 'object'
+    properties:
+      error:
+        type: 'string'
+        description: 'Error message provided by the server'
+        example: 'Retrieved Pool is undefined or the object is empty'
+  BadRequestError:
+      type: 'object'
+      properties:
+        error:
+          type: 'string'
+          description: 'An error message that was returned because a the request was missing fields'
+          example: 'When making a pool, not every required property was provided.'
+  NotFoundError:
+    type: 'object'
+    properties:
+      error:
+        type: 'string'
+        description: 'An error message that was returned because no object was found'
+        example: 'Test Environment not found'
+  ConflictError:
+    type: 'object'
+    properties:
+      error:
+        type: 'string'
+        description: 'An error message that was returned due to conflict'
+        example: 'More than one Pool found with name test-pool.'
+  ZodError:
+    type: 'object'
+    properties:
+      error:
+        type: 'string'
+        description: "An error message that was returned because the request didn't match the schema"
+        example: 'Expected array, received string, Unrecognized key(s) in object: "other", "new"'
+      issues:
+        type: 'object'
+        description: 'list of issues found in Json'
+  Login:
+    type: 'object'
+    properties:
+      signum:
+        type: 'string'
+        description: "User's signum"
+      password:
+        type: 'string'
+        description: "User's password"
+  TestEnvironment:
+    type: 'object'
+    properties:
+      id:
+        type: 'string'
+        description: 'Unique identification string'
+      name:
+        type: 'string'
+        description: 'Unique name for the Test Environment'
+      status:
+        type: 'string'
+        description: 'Current state or status of the Test Environment'
+      requestId:
+        type: 'string'
+        description: 'Associated Request ID'
+      pools:
+        type: 'array'
+        description: 'List of pools to which the Test Environment belongs'
+      properties:
+        type: 'object'
+        properties:
+          product:
+            type: 'string'
+            description: 'Area your test environment is associated with'
+          platformType:
+            type: 'string'
+            description: 'Platform Type of Test Environment'
+          version:
+            type: 'string'
+            description: 'Version of the Test Environment'
+          ccdVersion:
+            type: 'string'
+            description: 'CCD version of the Test Environment'
+      stage:
+        type: 'string'
+        description: 'Stage for the Test Environment'
+      additionalInfo:
+        type: 'string'
+        description: 'Additional information usually provided by pipelines'
+      comments:
+        type: 'string'
+        description: 'User-added comments that are stored in the cell until manually overwritten'
+      priorityInfo:
+        type: 'object'
+        properties:
+          viewIndices:
+            type: 'object'
+            properties:
+              view-index-name:
+                type: 'number'
+                description: 'Number or index used when sorting according to that specific view'
+      createdOn:
+        type: 'string'
+        description: 'Date-time at which the Test Environment was created in RPT'
+      modifiedOn:
+        type: 'string'
+        description: 'Date-time at which the Test Environment was last modified in RPT'
+    example:
+      {
+        'id': 'cl57zmqgm000a0jib2v444d20',
+        'name': 'test-e',
+        'status': 'Quarantine',
+        'requestId': '',
+        'pools': ['test-pool'],
+        'properties':
+          {
+            'product': 'l',
+            'platformType': 'l',
+            'version': '1.432',
+            'ccdVersion': 'l',
+          },
+        'stage': '',
+        'additionalInfo': 'Quarantined by Pipeline',
+        'comments': 'Quarantined for testing',
+        'priorityInfo':
+          { 'viewIndices': { 'test-pool': 0, 'testEnvironmentViewIndex': 1 } },
+        'createdOn': 'Tue, 05 Jul 2022 09:47:48 GMT',
+        'modifiedOn': 'Thu, 21 Jul 2022 13:57:18 GMT',
+      }
+  Pool:
+    type: 'object'
+    properties:
+      id:
+        type: 'string'
+        description: 'Unique identification string'
+      assignedTestEnvironmentIds:
+        type: 'array'
+        description: 'Test environment IDs assigned to this pool'
+      poolName:
+        type: 'string'
+        description: 'Name of the pool'
+      creatorDetails:
+        type: 'object'
+        properties:
+          name:
+            type: 'string'
+            description: 'Name of the creator'
+          area:
+            type: 'string'
+            description: 'Area to which the creator belongs'
+      additionalInfo:
+        type: 'string'
+        description: 'Additional information usually provided by pipeline'
+      createdOn:
+        type: 'string'
+        description: 'Date-time at which the Pool was created'
+      modifiedOn:
+        type: 'string'
+        description: 'Date-time at which the Pool was last modified'
+    example:
+      {
+        'id': 'cl57zmeaj00090jib3k7l36cr',
+        'assignedTestEnvironmentIds':
+          [
+            'cl57zmqgm000a0jib2v444d20',
+            'cl5qjxkih00090jk6esv39eg5',
+            'cl5s88lxt00090jfs42c71lo0',
+          ],
+        'poolName': 'test-pool',
+        'creatorDetails': { 'name': 'signum', 'area': 'Product Staging' },
+        'additionalInfo': '',
+        'createdOn': 'Tue, 05 Jul 2022 09:47:32 GMT',
+        'modifiedOn': 'Tue, 05 Jul 2022 09:47:32 GMT',
+      }
+  Request:
+    type: 'object'
+    properties:
+      id:
+        type: 'string'
+        description: 'Unique identification string'
+      testEnvironmentId:
+        type: 'string'
+        description: 'Unique identifier for the Test Environment in question'
+      poolName:
+        type: 'string'
+        description: 'Name of the Pool to which the Request is being performed'
+      requestorDetails:
+        type: 'object'
+        properties:
+          name:
+            type: 'string'
+            description: 'Name of the requestor'
+          area:
+            type: 'string'
+            description: 'Area to which the requestor belongs'
+      status:
+        type: 'string'
+        description: 'Status of the Test Environment'
+      createdOn:
+        type: 'string'
+        description: 'Date-time at which the Request was created'
+      modifiedOn:
+        type: 'string'
+        description: 'Date-time at which the Request was last modified'
+      lastReservedAt:
+        type: 'string'
+        description: 'Date-time at which the Request was last reserved at'
+    example:
+      {
+        'id': 'cktj4qt9k001f0ijp9u2u2mrk',
+        'testEnvironmentId': 'ckt31hgyh000m0ijpahdu53z5',
+        'poolName': 'honeypots',
+        'requestorDetails': { 'name': 'CSAR Download Testing', 'area': 'IDUN' },
+        'status': 'Reserved',
+        'createdOn': 'Mon, 13 Sep 2021 20:59:56 GMT',
+        'modifiedOn': 'Mon, 13 Sep 2021 21:00:00 GMT',
+        'lastReservedAt': 'Mon, 13 Sep 2021 21:00:00 GMT',
+      }
+  Schedule:
+    type: 'object'
+    properties:
+      id:
+        type: 'string'
+        description: 'Unique identification string'
+      scheduleName:
+        type: 'string'
+        description: 'Name of the schedule'
+      scheduleEnabled:
+        type: 'boolean'
+        description: 'Status of schedule'
+      refreshData:
+        type: 'object'
+        properties:
+          spinnakerPipelineApplicationName:
+            type: 'string'
+            description: 'Type of spinnakerPipelineApplicationName'
+          spinnakerPipelineName:
+            type: 'string'
+            description: 'Type of spinnakerPipelineName'
+          itemsToScheduleIds:
+            type: 'array'
+            description: 'Array of items to schedule'
+      typeOFItemsToSchedule:
+        type: 'string'
+        description: 'Type of items to be scheduled'
+      retentionPolicyData:
+        type: 'object'
+        properties:
+          retentionPolicyEnabled:
+            type: 'string'
+            description: 'Type of retentionPolicyEnabled'
+          numOfStanbyEnvsToBeRetained:
+            type: 'number'
+            description: 'Type of numOfStanbyEnvsToBeRetained'
+          numOfEiapReleaseForComparison:
+            type: 'number'
+            description: 'Type of numOfEiapReleaseForComparison'
+      scheduleOptions:
+        type: 'object'
+        properties:
+          scheduleType:
+            type: 'string'
+            description: 'Type of schedule'
+          cronSchedule:
+            type: 'string'
+            description: 'Cron schedule'
+          projectArea:
+            type: 'string'
+            description: 'Project area for refresh'
+      createdOn:
+        type: 'string'
+        description: 'Date-time at which the Schedule was created'
+      modifiedOn:
+        type: 'string'
+        description: 'Date-time at which the Schedule was last modified'
+    example:
+      {
+        'id': 'ckxa9j7qe000x0jfl1dne852r',
+        'scheduleName': 'auto-refresh-pso-ool',
+        'scheduleEnabled': false,
+        'refreshData':
+          {
+            'spinnakerPipelineApplicationName': 'test-pipeline-application-name',
+            'spinnakerPipelineName': 'test-pipeline-name',
+            'itemsToScheduleIds': ['clb3oiofu0000s8hmbiam2umn'],
+          },
+        'typeOfItemsToSchedule': 'pool',
+        'retentionPolicyData':
+          {
+            'retentionPolicyEnabled': false,
+            'numOfStanbyEnvsToBeRetained': 2,
+            'numOfEiapReleaseForComparison': 4,
+          },
+        'scheduleOptions':
+          {
+            'scheduleType': 'auto-refresh',
+            'cronSchedule': '0 * * * *',
+            'projectArea': 'pso',
+          },
+        'createdOn': 'Fri, 17 Dec 2021 10:42:53 GMT',
+        'modifiedOn': 'Mon, 11 Jul 2022 10:43:08 GMT',
+      }

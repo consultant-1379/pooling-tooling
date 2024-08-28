@@ -1,0 +1,105 @@
+<div>
+  <div class="jumbotron text-center">
+    <span class="display-1">
+      Welcome to the Resource Pooling Tool<b>{{ environmentModeText }}</b>
+    </span>
+  </div>
+  <div class="container">
+    <article>
+      <h1>Introduction</h1>
+      <hr class="bg-dark"/>
+      <p class="landing-page-font">
+        Resource Pooling Tool (RPT) is a tool which was created with the initial scope of efficiently managing Kubernetes based environments for use within the Aeonic program.
+        However, due to the generic way RPT is designed, it can effectively be used to manage the state of <strong>any</strong> resources that would otherwise need to be
+        tracked and managed through confluence pages or other manual means. If this interests you, please <a href="mailto:PDLENMCOUN@pdl.internal.ericsson.com?subject=Resource Pooling Tool">contact Thunderbee about using RPT</a> to manage your resources.
+      </p>
+    </article>
+    <article>
+      <cdk-accordion>
+        <cdk-accordion-item
+          #accordionItem="cdkAccordionItem">
+          <div class="accordion-item-header" (click)="accordionItem.toggle()">
+            Current Use
+            <span class="accordion-item-description">
+              <mat-icon>{{ accordionItem.expanded ? 'remove' : 'add' }}</mat-icon>
+            </span>
+          </div>
+          <hr class="bg-dark"/>
+          <div
+            class="accordion-item-body"
+            role="region"
+            [style.display]="accordionItem.expanded ? '' : 'none'">
+            <div class="rpt-area">
+              <p class="currently-used landing-page-font ">
+                Currently RPT is used by the following areas:
+              </p>
+              <div class="expansion-action-buttons">
+                <button mat-button (click)="accordion.openAll()">Expand All</button>
+                <button mat-button (click)="accordion.closeAll()">Collapse All</button>
+              </div>
+            </div>
+              <mat-accordion multi>
+                <mat-expansion-panel class="list-group-item">
+                  <mat-expansion-panel-header >
+                      <mat-panel-title >
+                        EIC Product Staging
+                      </mat-panel-title>
+                  </mat-expansion-panel-header>
+                    <ul class="list-group landing-page-font">
+                      <li class="list-group-item">Tracking the availability of test environments for use within pipelines.</li>
+                      <li class="list-group-item">Automated reservation, unreservation and quarantining of environments within pipelines.</li>
+                      <li class="list-group-item">Automatically refresh standby environments to prevent them from becoming stale and minimizing down time of a pipeline on failure.</li>
+                      <li class="list-group-item">Replace unhealthy environments with fresh ones in the product staging pool to ensure they have healthy available environments</li>
+                    </ul>
+              </mat-expansion-panel>
+                  <mat-expansion-panel class="list-group-item ">
+                      <mat-expansion-panel-header >
+                        <mat-panel-title >
+                          EIC Release (TaaP)
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                        <ul class="list-group landing-page-font">
+                          <li class="list-group-item">Tracking the availability of test environments for use within pipelines.</li>
+                          <li class="list-group-item">Automated reservation, unreservation and quarantining of environments within pipelines.</li>
+                          <li class="list-group-item">Automatically refresh standby environments to prevent them from becoming stale and minimizing down time of a pipeline on failure.</li>
+                          <li class="list-group-item">Storage and automated retrieval of test environment information needed in pipeline executions.</li>
+                        </ul>
+                  </mat-expansion-panel>
+                  <mat-expansion-panel class="list-group-item ">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title >
+                          EIC Release (CaaP)
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                        <ul class="list-group landing-page-font">
+                          <li class="list-group-item">Automatically refresh standby environments to prevent them from becoming stale and minimizing down time of a pipeline on failure.</li>
+                        </ul>
+                  </mat-expansion-panel>
+                <mat-expansion-panel class="list-group-item ">
+                  <mat-expansion-panel-header>
+                      <mat-panel-title >
+                        Auto App
+                      </mat-panel-title>
+                  </mat-expansion-panel-header>
+                    <ul class="list-group landing-page-font">
+                      <li class="list-group-item">Storage and automated retrieval of test environment information needed in pipeline executions.</li>
+                      <li class="list-group-item">Automatically refresh standby environments to prevent them from becoming stale and minimizing down time of a pipeline on failure.</li>
+                    </ul>
+                </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </cdk-accordion-item>
+      </cdk-accordion>
+    </article>
+    <article>
+      <h1>Support</h1>
+      <hr class="bg-dark"/>
+      <p class="landing-page-font">
+        The <a routerLink="/help-docs/">Help Docs</a> for RPT can be accessed at the top right of this page.
+      </p>
+      <p class="landing-page-font">
+        <a href="https://eteamspace.internal.ericsson.com/x/5BRke">Create a support ticket on Thunderbee</a>
+      </p>
+    </article>
+  </div>
+</div>

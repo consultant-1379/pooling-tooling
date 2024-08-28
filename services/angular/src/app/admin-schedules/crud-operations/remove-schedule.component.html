@@ -1,0 +1,17 @@
+<form [formGroup]="removeScheduleForm" class="remove-schedule-form">
+  <div class="form-group">
+      <h2 matDialogTitle class="title-view">Remove Schedule: <b>{{ data.scheduleToRemove }}</b></h2>
+      <mat-dialog-content class="mat-content-view">
+          <h4>Are you sure want to remove this schedule?</h4>
+          <h4 class="warning">This action is irreversible</h4>
+          <mat-form-field class="confirm-input" flatLabel="auto" appearance="outline" color="primary">
+              <input class="remove-view" matInput type="text" placeholder="Re-type the Schedule name to confirm" [(ngModel)]="scheduleToRemove" formControlName="scheduleToRemove">
+              <mat-hint align="end"><b>Case Sensitive</b></mat-hint>
+          </mat-form-field>
+      </mat-dialog-content>
+      <mat-dialog-actions id="buttons-area">
+          <button class="cancel-button" matDialogClose="cancel" mat-raised-button color="primary">Cancel</button>
+          <button class="confirm-button" (click)="removeSchedule()" [disabled]="removeScheduleForm.invalid" mat-raised-button color="warn">Submit</button>
+      </mat-dialog-actions>
+  </div>
+</form>

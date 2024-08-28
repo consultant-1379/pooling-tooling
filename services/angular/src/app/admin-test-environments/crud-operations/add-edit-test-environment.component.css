@@ -1,0 +1,123 @@
+.close-button {
+  float: right;
+}
+
+.close-button:hover {
+  cursor: pointer;
+}
+
+::ng-deep .mat-button-focus-overlay {
+  background-color: transparent;
+}
+
+.icon-properties {
+  font-size: 28px;
+  color: var(--ericsson-red);
+  opacity: 0.75;
+}
+
+::ng-deep .mat-tooltip {
+  white-space: pre-line !important;
+  text-align: center;
+  font-size: 1em;
+}
+
+.category-header {
+  margin-top: -12px;
+  color: var(--system-black);
+  opacity: 0.76;
+}
+
+.add-edit-test-environment-form-header {
+  font-size: 15px;
+  color: var(--ericsson-gray-1);
+}
+
+.header-class {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.div-height {
+  margin-top: 10px;
+}
+
+.select-view {
+  width: 100%;
+  margin-top: 0.5em;
+  padding-bottom: 0;
+}
+
+.button-height {
+  line-height: 3.125;
+  margin-top: 25px;
+}
+
+#apply-button-section {
+  height: 15%;
+  overflow: hidden;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.5em 0 1em;
+}
+
+::ng-deep .mat-select-panel {
+  margin-top: 24px;
+}
+
+::ng-deep .mat-select-arrow {
+  border-top: 8px solid var(--ericsson-gray-3) !important;
+  border-left: 8px solid transparent !important;
+  border-right: 8px solid transparent !important;
+  margin-top: 7px !important;
+}
+
+.add-edit-environment-main-form {
+  height: 79vh;
+  overflow: hidden;
+  padding-top: 20px;
+}
+
+.inner-add-edit-environment-form {
+  height: 80%;
+  overflow: auto;
+  padding-right: 10px;
+  scrollbar-width: thin;
+}
+
+ng-multiselect-dropdown {
+  margin-top: 7px;
+  display: block;
+  margin-bottom: 19px;
+}
+
+@media (max-height: 823px) {
+  .add-edit-environment-main-form {
+    height: 81vh;
+  }
+
+  .inner-add-edit-environment-form {
+    height: 77%;
+  }
+}
+
+@media (max-height: 700px) {
+  .add-edit-environment-main-form {
+    height: 86vh;
+  }
+
+  .inner-add-edit-environment-form {
+    height: 74%;
+  }
+}
+
+@media (max-height: 588px) {
+  .add-edit-environment-main-form {
+    height: 86vh;
+  }
+
+  .inner-add-edit-environment-form {
+    height: 73%;
+  }
+}

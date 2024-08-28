@@ -1,0 +1,17 @@
+<form [formGroup]="removePoolForm" class="remove-pool-form">
+  <div class="form-group">
+      <h2 matDialogTitle class="title-view">Remove Pool: <b>{{ data.poolToRemove }}</b></h2>
+      <mat-dialog-content class="mat-content-view">
+          <h4>Are you sure want to remove this pool?</h4>
+          <h4 class="warning">This action is irreversible</h4>
+          <mat-form-field class="confirm-input" flatLabel="auto" appearance="outline" color="primary">
+              <input class="remove-view" matInput type="text" placeholder="Re-type the Pool name to confirm" [(ngModel)]="poolToRemove" formControlName="poolToRemove">
+              <mat-hint align="end"><b>Case Sensitive</b></mat-hint>
+          </mat-form-field>
+      </mat-dialog-content>
+      <mat-dialog-actions id="buttons-area">
+          <button class="cancel-button" matDialogClose="cancel" mat-raised-button color="primary">Cancel</button>
+          <button class="confirm-button" (click)="removePool()" [disabled]="removePoolForm.invalid" mat-raised-button color="warn">Submit</button>
+      </mat-dialog-actions>
+  </div>
+</form>

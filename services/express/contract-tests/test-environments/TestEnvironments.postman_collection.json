@@ -1,0 +1,487 @@
+{
+  "info": {
+    "_postman_id": "0ef090ab-2bd6-4fc8-8895-b5d1b31e3f72",
+    "name": "TestEnvironments",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET /test-environments/",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"GET /test-environments/\", function() {\r",
+              "    var response = pm.response.json();    \r",
+              "    pm.response.to.have.status(200);\r",
+              "    pm.expect(response.length).greaterThan(0);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/test-environments/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "test-environments",
+            ""
+          ]
+        }
+      },
+      "response": []
+        },
+    {
+      "name": "GET /test-environments/:id",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"GET /test-environments/:id\", function() {\r",
+              "    var response = pm.response.json();    \r",
+              "    pm.response.to.have.status(200);\r",
+              "    pm.expect(response.length).eql(1);\r",
+              "    pm.expect(response[0].id).eql(pm.environment.get(\"TEST_ENVIRONMENT_ONE_ID\"));\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/test-environments/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "test-environments",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{TEST_ENVIRONMENT_ONE_ID}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET /test-environments/name/:name",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"GET /test-environments/name/:name\", function() {\r",
+              "    var response = pm.response.json();    \r",
+              "    pm.response.to.have.status(200);\r",
+              "    pm.expect(response.length).eql(1);\r",
+              "    pm.expect(response[0].name).eql(pm.environment.get(\"TEST_ENVIRONMENT_ONE_NAME\"));\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/test-environments/name/:name",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "test-environments",
+            "name",
+            ":name"
+          ],
+          "variable": [
+            {
+              "key": "name",
+              "value": "{{TEST_ENVIRONMENT_ONE_NAME}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET /test-environments/status/:status",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"GET /test-environments/status/:status\", function() {\r",
+              "    var response = pm.response.json();    \r",
+              "    pm.response.to.have.status(200);\r",
+              "    pm.expect(response.length).gte(1);\r",
+              "    pm.expect(response[0].status).eql(pm.environment.get(\"TEST_ENVIRONMENT_ONE_STATUS\"));\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/test-environments/status/:status",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "test-environments",
+            "status",
+            ":status"
+          ],
+          "variable": [
+            {
+              "key": "status",
+              "value": "{{TEST_ENVIRONMENT_ONE_STATUS}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+            "name": "GET /test-environments/pools/:pool",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"GET /test-environments/pools/:pool\", function() {\r",
+                            "    var response = pm.response.json();    \r",
+                            "    pm.response.to.have.status(200);\r",
+                            "    pm.expect(response.length).eql(1);\r",
+                            "    pm.expect(response[0].pools).to.contain(pm.environment.get(\"TEST_ENVIRONMENT_ONE_POOL\"));\r",
+                            "});\r",
+                            ""
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3000/test-environments/pools/:pool",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3000",
+                    "path": [
+                        "test-environments",
+                        "pools",
+                        ":pool"
+                    ],
+                    "variable": [
+                        {
+                            "key": "pool",
+                            "value": "{{TEST_ENVIRONMENT_ONE_POOL}}"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "POST /test-environments/",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"POST /test-environments/\", function() {\r",
+                            "    var response = pm.response.json();    \r",
+                            "    pm.response.to.have.status(201);\r",
+                            "    pm.expect(response).to.be.an('object');\r",
+                            "});\r",
+                            ""
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n  \"name\": \"myTestEnvironmentXXXasd\",\r\n  \"status\": \"Available\",\r\n  \"pools\": [ \"myPool\" ],\r\n  \"properties\": {\r\n    \"product\": \"NA\",\r\n    \"platformType\": \"NA\",\r\n    \"version\": \"1.1.1\",\r\n    \"ccdVersion\": \"1.1.1\"\r\n  }\r\n}\r\n",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:3000/test-environments/",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3000",
+                    "path": [
+                        "test-environments",
+                        ""
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "PATCH /test-environments/:id",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"PATCH /test-environments/:id\", function() {\r",
+                            "    var response = pm.response.json();    \r",
+                            "    pm.response.to.have.status(200);\r",
+                            "    pm.expect(response).to.be.an('object');\r",
+                            "});\r",
+                            ""
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{ \"status\": \"Quarantine\" }",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:3000/test-environments/:id",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3000",
+                    "path": [
+                        "test-environments",
+                        ":id"
+                    ],
+                    "variable": [
+                        {
+                            "key": "id",
+                            "value": "{{TEST_ENVIRONMENT_ONE_ID}}"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "GET /test-environments/sorted",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"GET /test-environments/sorted\", function() {\r",
+                            "    var response = pm.response.json();    \r",
+                            "    pm.response.to.have.status(200);\r",
+                            "    pm.expect(response.length).greaterThan(0);\r",
+                            "});\r",
+                            ""
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3000/test-environments/sorted",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3000",
+                    "path": [
+                        "test-environments",
+                        "sorted"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "GET /test-environments/pools/:pool/sorted",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3000/test-environments/pools/:pool/sorted",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3000",
+                    "path": [
+                        "test-environments",
+                        "pools",
+                        ":pool",
+                        "sorted"
+                    ],
+                    "variable": [
+                        {
+                            "key": "pool",
+                            "value": "{{TEST_ENVIRONMENT_ONE_POOL}}"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "GET /test-environments/get-freshest-test-environment/:ids",
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "// pm.environment.set(\"TEST_ENVIRONMENT_WITH_LOW_VERSION_ID\", {);\r",
+                            "// pm.environment.set(\"TEST_ENVIRONMENT_WITH_HIGH_VERSION_ID\", \"ckqgtagh100030liq92091r0w\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"GET /test-environments/get-freshest-test-environment/:ids\", function() {\r",
+                            "    var response = pm.response.json();    \r",
+                            "    pm.response.to.have.status(200);\r",
+                            "    pm.expect(response).to.be.an('object');\r",
+                            "    pm.expect(response.id).eql(pm.environment.get(\"TEST_ENVIRONMENT_WITH_HIGH_VERSION_ID\"));\r",
+                            "});\r",
+                            ""
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3000/test-environments/get-freshest-test-environment/{{TEST_ENVIRONMENT_WITH_LOW_VERSION_ID}},{{TEST_ENVIRONMENT_WITH_HIGH_VERSION_ID}}",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3000",
+                    "path": [
+                        "test-environments",
+                        "get-freshest-test-environment",
+                        "{{TEST_ENVIRONMENT_WITH_LOW_VERSION_ID}},{{TEST_ENVIRONMENT_WITH_HIGH_VERSION_ID}}"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "DELETE /test-environments/:id",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"DELETE /test-environments/:id\", function() {\r",
+                            "    var response = pm.response\r",
+                            "    pm.response.to.have.status(204);\r",
+                            "});\r",
+                            ""
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3000/test-environments/:id",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3000",
+                    "path": [
+                        "test-environments",
+                        ":id"
+                    ],
+                    "variable": [
+                        {
+                            "key": "id",
+                            "value": "{{TEST_ENVIRONMENT_ONE_ID}}"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
+}

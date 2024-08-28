@@ -1,0 +1,122 @@
+modelVersion: 2.0
+
+description: "Resource Pooling Tool: Build and Publish Pipeline"
+
+docker-images:
+  - bump-version: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/treeder/bump:1.2.11
+
+properties:
+ - pooling-tooling-version-file-path: ./VERSION
+ - angular-dockerfile-path: ./services/angular/Dockerfile-production
+ - express-dockerfile-path: ./services/express/Dockerfile-production
+ - swagger-dockerfile-path: ./services/swagger/Dockerfile-production
+ - nginx-dockerfile-path: ./services/nginx/Dockerfile-production
+ - angular-image-name: rpt_client
+ - express-image-name: rpt_server
+ - swagger-image-name: rpt_swagger
+ - nginx-image-name: rpt_nginx
+ - bump-version-path: cicd_files/jenkins/scripts/bump_version.sh
+ - armdocker-repo-path: armdocker.rnd.ericsson.se/proj-eric-oss-dev-test/
+ - ui-version-update-path: cicd_files/jenkins/scripts/update_version_for_ui.sh
+
+var:
+  - docker-image-id
+  - dockerfile-path
+  - version-file-path
+  - ui-version-update-script
+  - image-name
+  - armdocker-repo
+
+env:
+  - PWD
+  - WORKSPACE
+  - IMAGE_VERSION
+  - GERRIT_CENTRAL
+
+rules:
+  set-version-env-variable:
+    - task: set-path-to-armdocker-repo
+      cmd: echo ${armdocker-repo-path} > .bob/var.armdocker-repo
+    - task: set-path-to-version-file
+      cmd: echo ${pooling-tooling-version-file-path} > .bob/var.version-file-path
+    - task: set-path-to-update-version-script
+      cmd: echo ${ui-version-update-path} > .bob/var.ui-version-update-script
+
+  bump-service-version:
+    - task: bump-version-file
+      docker-image: bump-version
+      docker-flags:
+        - "--workdir /app"
+      docker-mounts:
+        - "${env.PWD}:/app"
+      cmd: --filename ${var.version-file-path} patch
+    - task: expose-version
+      cmd: cat "${var.version-file-path}" > ${env.WORKSPACE}/artifact.properties
+    - task: change-version-in-ui
+      cmd: sh ${ui-version-update-path}
+
+  set-angular-env-variables:
+    - task: set-path-to-angular-dockerfile
+      cmd: echo ${angular-dockerfile-path} > .bob/var.dockerfile-path
+    - task: set-angular-image-name
+      cmd: echo ${angular-image-name} > .bob/var.image-name
+
+  set-express-env-variables:
+    - task: set-path-to-express-dockerfile
+      cmd: echo ${express-dockerfile-path} > .bob/var.dockerfile-path
+    - task: set-express-image-name
+      cmd: echo ${express-image-name} > .bob/var.image-name
+
+  set-swagger-env-variables:
+    - task: set-path-to-swagger-dockerfile
+      cmd: echo ${swagger-dockerfile-path} > .bob/var.dockerfile-path
+    - task: set-swagger-image-name
+      cmd: echo ${swagger-image-name} > .bob/var.image-name
+
+  set-nginx-env-variables:
+    - task: set-path-to-nginx-dockerfile
+      cmd: echo ${nginx-dockerfile-path} > .bob/var.dockerfile-path
+    - task: set-nginx-image-name
+      cmd: echo ${nginx-image-name} > .bob/var.image-name
+
+  build-docker-image:
+    - task: build-image
+      cmd: docker build -f ${var.dockerfile-path} -t ${var.armdocker-repo}${var.image-name}:${env.IMAGE_VERSION} --pull ${env.WORKSPACE}
+    - task: get-docker-image-id
+      cmd: docker images ${var.armdocker-repo}${var.image-name} -q > .bob/var.docker-image-id
+    - task: tag-image
+      cmd: docker tag ${var.docker-image-id} ${var.armdocker-repo}${var.image-name}:latest
+
+  publish-docker-image:
+    - task: push-docker-image
+      cmd: docker push ${var.armdocker-repo}${var.image-name}:${env.IMAGE_VERSION}
+    - task: push-latest-docker-image
+      cmd: docker push ${var.armdocker-repo}${var.image-name}:latest
+
+  add-changes-to-version-file:
+    - task: git-add
+      cmd: git add ${var.version-file-path} && git add *.json && git add *.yaml
+    - task: git-add-ui-versions
+      cmd: git add './services/angular/src/environments/*'
+
+  push-changes-to-version-file:
+    - task: git-commit
+      cmd: git commit -m "Version ${env.IMAGE_VERSION}"
+    - task: git-tag
+      cmd: git tag -a "${env.IMAGE_VERSION}" -m "version ${env.IMAGE_VERSION}"
+    - task: git-rebase
+      cmd: git rebase HEAD gcn/master
+    - task: git-push-master-branch
+      cmd: git push ${env.GERRIT_CENTRAL}/OSS/com.ericsson.oss.ci/pooling-tooling HEAD:master
+    - task: git-push-tags
+      cmd: git push --tags ${env.GERRIT_CENTRAL}/OSS/com.ericsson.oss.ci/pooling-tooling
+
+  clean-up-docker-image:
+    - task: kill-versioned-image
+      cmd: "docker kill ${var.armdocker-repo}${var.image-name}:${env.IMAGE_VERSION} || true"
+    - task: kill-latest-image
+      cmd: "docker kill ${var.armdocker-repo}${var.image-name}:latest || true"
+    - task: remove-versioned-image
+      cmd: "docker rmi ${var.armdocker-repo}${var.image-name}:${env.IMAGE_VERSION} || true"
+    - task: remove-latest-image
+      cmd: "docker rmi ${var.armdocker-repo}${var.image-name}:latest || true"

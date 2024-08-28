@@ -1,0 +1,165 @@
+<app-help-docs-navigation></app-help-docs-navigation>
+<div id="help-docs-container" class="container">
+  <h1>Test Environments Administration</h1>
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#purpose">Purpose</a></li>
+    <li><a href="#add-test-environment">Add Test Environment</a></li>
+    <li><a href="#edit-test-environment">Edit Test Environment</a></li>
+    <li><a href="#remove-test-environment">Remove Test Environment</a></li>
+  </ul>
+  <a class="anchor" name="overview"></a>
+  <h3>Overview</h3>
+  <hr>
+  <p>This page describes the test environments administration features in RPT.</p>
+  <p>It describes the purpose of these features and how they work.</p>
+
+  <a class="anchor" name="purpose"></a>
+  <h3>Purpose</h3>
+  <hr>
+  <p>The purpose of having test environments administration section in RPT is to provide the ability to:</p>
+  <ul>
+    <li>Add Test Environments</li>
+    <li>Edit Test Environments</li>
+    <li>Remove Test Environments</li>
+  </ul>
+
+  <a class="anchor" name="add-test-environment"></a>
+  <h3>Add Test Environment</h3>
+  <hr>
+  <h4 class="steps-heading">Steps</h4>
+  <div class="steps">
+    <p><b class="step-number">1</b> <span class="single-step">Enter test environment name in the search box</span></p>
+    <ul>
+      <li>Please note that this is case sensitive.</li>
+    </ul>
+    <p><b class="step-number">2</b> <span class="single-step">Click on the 'Add Environment' button</span></p>
+    <ul>
+      <li>If the environment exists dialog box will be populated stating "Test Environment env already exists in RPT".
+      </li>
+      <li>If the environment does not exist, Add Environment form will be populated.</li>
+    </ul>
+    <p><b class="step-number">3</b> <span class="single-step">Please enter the test environment's properties</span></p>
+    <ul>
+      <li>
+        <table>
+          <tr>
+            <th>Core Information </th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Pool</td>
+            <td>Select appropriate pools to which the test environment belongs.</td>
+          </tr>
+        </table>
+      </li>
+      <li>
+        <table>
+          <tr>
+            <th>Cluster Properties</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Product</td>
+            <td>The area your test environment is associated with (e.g. EIC).</td>
+          </tr>
+          <tr>
+            <td>Platform Type</td>
+            <td>The platform type of test environment (e.g. Microsoft Azure, CNIS).</td>
+          </tr>
+          <tr>
+            <td>Version</td>
+            <td>The version of the application that is installed on the test environment.</td>
+          </tr>
+          <tr>
+            <td>CCD Version</td>
+            <td>The version of CCD that is installed on the test environment.</td>
+          </tr>
+        </table>
+      </li>
+    </ul>
+    <p><b class="step-number">4</b> <span class="single-step">Click on 'Add Environment'</span></p>
+  </div>
+
+  <a class="anchor" name="edit-test-environment"></a>
+  <h3>Edit Test Environment</h3>
+  <hr>
+  <h4 class="steps-heading">Steps</h4>
+  <div class="steps">
+    <p><b class="step-number">1</b> <span class="single-step">Enter test environment name in the search box</span></p>
+    <ul>
+      <li>Please note that this is case sensitive.</li>
+    </ul>
+    <p><b class="step-number">2</b> <span class="single-step">Click the 'Edit Environment' button</span></p>
+    <ul>
+      <li>If the environment exists, a dialog box will be populated with the environment's current attributes.</li>
+      <li>If the environment does not exist, the user will be notified by a pop-up window.</li>
+    </ul>
+    <p><b class="step-number">3</b> <span class="single-step">Edit the test environment's properties</span></p>
+    <ul>
+      <li>
+        <table>
+          <tr>
+            <th>Core Information</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Pool</td>
+            <td>Select appropriate pools to which the test environment belongs.</td>
+          </tr>
+        </table>
+      </li>
+      <li>
+        <table>
+          <tr>
+            <th>Cluster Properties</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Product</td>
+            <td>Edit the area your test environment is associated with (e.g. EIC).</td>
+          </tr>
+          <tr>
+            <td>Platform Type</td>
+            <td>Edit the platform type of test environment (e.g. Azure).</td>
+          </tr>
+          <tr>
+            <td>Version</td>
+            <td>Edit the version of the application installed on the test environment.</td>
+          </tr>
+          <tr>
+            <td>CCD Version</td>
+            <td>Edit the CCD version installed on the test environment.</td>
+          </tr>
+        </table>
+      </li>
+    </ul>
+    <p><b class="step-number">4</b> <span class="single-step">Click on 'Edit Environment' to modify the
+        environment</span></p>
+  </div>
+
+  <a class="anchor" name="remove-test-environment"></a>
+  <h3>Remove Test Environment</h3>
+  <hr>
+  <h4 class="steps-heading">Steps</h4>
+  <div class="steps">
+    <p><b class="step-number">1</b> <span class="single-step">Enter test environment name in the search box</span></p>
+    <ul>
+      <li>Please note that this is case sensitive.</li>
+    </ul>
+    <p><b class="step-number">2</b> <span class="single-step">Click on the 'Remove Environment' button</span></p>
+    <ul>
+      <li>If the environment does not exist, a dialog box will pop up stating that the environment does not exist in
+        RPT.
+      </li>
+      <li>If the environment exists, the Remove Environment form will be opened.</li>
+    </ul>
+    <p><b class="step-number">3</b> <span class="single-step">Re-enter the environment's name</span></p>
+    <ul>
+      <li>To confirm, please re-enter the name of the environment to be removed.</li>
+      <li>The submit button will only be enabled in the name of the environment to be removed has been re-entered.</li>
+    </ul>
+    <p><b class="step-number">4</b> <span class="single-step">Click on the 'Submit' button to remove the Environment</span>
+    </p>
+  </div>
+</div>

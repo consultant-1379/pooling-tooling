@@ -1,0 +1,19 @@
+<div mat-dialog-content>
+  <div class="container">
+    <h4>{{this.title}}</h4>
+    <a mat-icon-button (click)="closeDialogModal()" class="close-button" matTooltip="Close" mattooltipposition="above" matTooltipClass="example-tooltip-red">
+      <mat-icon class="icon-properties">cancel</mat-icon>
+    </a>
+    <table mat-table [dataSource]="dynamicModalDataSource">
+
+      <ng-container *ngFor="let id of displayedColumnIds; let i=index;" [matColumnDef]="id">
+        <th mat-header-cell *matHeaderCellDef class="col-standardWidth">{{displayedColumnNames[i]}}</th>
+        <td mat-cell *matCellDef="let propertyData" class="col-modal-{{displayedColumnIds[i]}}">{{ propertyData[id] }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumnIds" class="modalHeader"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnIds;" class="tbl-row"></tr>
+
+    </table>
+  </div>
+</div>

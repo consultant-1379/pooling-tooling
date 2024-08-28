@@ -1,0 +1,22 @@
+<div #top>
+    <nav id="help-docs-header-bar">
+        <p id="help-docs-header-h1">Help Documentation</p>
+    </nav>
+</div>
+<div [ngClass]="helpDocsNavigation">
+    <hr><br>
+    <ul id="navigation-list">
+        <li><a routerLink="/help-docs/">Home</a></li>
+        <li><a routerLink="/help-docs/test-environments">Test Environments</a></li>
+        <li><a routerLink="/help-docs/pools">Pools</a></li>
+        <li><a routerLink="/help-docs/schedules">Schedules</a></li>
+        <li><a routerLink="/help-docs/test-environments-administration">Test Environments Administration</a></li>
+        <li><a routerLink="/help-docs/pools-administration">Pools Administration</a></li>
+        <li><a routerLink="/help-docs/schedules-administration">Schedules Administration</a></li>
+    </ul>
+    <br>
+    <hr>
+</div>
+<button (click)="goToTop()" id="go-to-top-button" [ngClass]="showGoToTopButton">
+    Back To Top <mat-icon>keyboard_arrow_up</mat-icon>
+</button>

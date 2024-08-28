@@ -1,0 +1,33 @@
+.custom-snackbar-class .mat-simple-snackbar {
+  text-align: center;
+  font-family: inherit;
+}
+
+.socket-snackbar-class {
+  margin-top: 48rem !important;
+  background-color: var(--ericsson-red);
+}
+
+.error-snackbar-class {
+  background-color: var(--ericsson-red);
+}
+
+.error-snackbar-class .mat-simple-snackbar {
+  text-align: center;
+  font-family: inherit;
+  color: var(--ericsson-white);
+}
+
+.mat-simple-snackbar-action button {
+  background-color: var(--ericsson-red);
+  color: var(--ericsson-white);
+  border-radius: 50%;
+  font-weight: bolder;
+}
+
+.mat-simple-snackbar-action button:hover {
+  background-color: var(--ericsson-red);
+  color: white;
+  border-radius: 50%;
+  font-weight: bolder;
+}

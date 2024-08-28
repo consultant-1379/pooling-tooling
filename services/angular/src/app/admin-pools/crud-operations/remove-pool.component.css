@@ -1,0 +1,41 @@
+.confirm-input {
+  margin-top: 8px;
+  width: 100%;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: bold;
+}
+
+#buttons-area {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cancel-button {
+  width: 150px;
+}
+
+.confirm-button {
+  margin-left: 40px !important;
+  width: 150px;
+}
+
+.mat-content-view {
+  overflow: hidden;
+}
+
+.remove-view {
+  padding: 0;
+}
+
+.title-view {
+  margin: 0 0 5px;
+}
+
+.remove-pool-form {
+  padding-top: 20px;
+}
+
+.warning {
+  color: var(--ericsson-red);
+}

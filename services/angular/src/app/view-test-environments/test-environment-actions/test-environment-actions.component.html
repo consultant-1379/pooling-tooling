@@ -1,0 +1,58 @@
+<button title="More actions" mat-icon-button  [matMenuTriggerFor]="testEnvironmentActionsMenu"
+  class="test-environment-actions-menu">
+  <mat-icon>more_vert</mat-icon>
+</button>
+
+<mat-menu #testEnvironmentActionsMenu>
+
+  <div>
+    <button mat-menu-item [matMenuTriggerFor]="testEnvironmentActions" >
+      <mat-icon>kitchen</mat-icon>
+      Environment Actions
+    </button>
+  </div>
+
+  <div>
+    <button mat-menu-item (click)="openEnvironmentLogs(testEnvironmentInfo.name)">
+      <mat-icon>dashboard</mat-icon>
+      Environment Logs
+    </button>
+  </div>
+
+  <mat-menu #testEnvironmentActions>
+    <ng-template [ngIf]="!['reserved', 'refreshing'].includes(testEnvironmentInfo.status.toLowerCase())">
+      <button mat-menu-item (click)="setTestEnvironmentToReserved(testEnvironmentInfo)">
+        <mat-icon>lock</mat-icon>
+        <span>Set Test Environment To Reserved</span>
+      </button>
+    </ng-template>
+
+    <ng-template [ngIf]="!['quarantine', 'refreshing'].includes(testEnvironmentInfo.status.toLowerCase())">
+      <button mat-menu-item (click)="setTestEnvironmentToQuarantine(testEnvironmentInfo)">
+        <mat-icon>remove_circle</mat-icon>
+        <span>Set Test Environment To Quarantine</span>
+      </button>
+    </ng-template>
+
+    <ng-template [ngIf]="!['available', 'refreshing'].includes(testEnvironmentInfo.status.toLowerCase())">
+      <button mat-menu-item (click)="setTestEnvironmentToAvailable(testEnvironmentInfo)">
+        <mat-icon>lock_open</mat-icon>
+        <span>Set Test Environment To Available</span>
+      </button>
+    </ng-template>
+
+    <ng-template [ngIf]="!['standby'].includes(testEnvironmentInfo.status.toLowerCase())">
+      <button mat-menu-item (click)="setTestEnvironmentToStandby(testEnvironmentInfo)">
+        <mat-icon>av_timer</mat-icon>
+        <span>Set Test Environment To Standby</span>
+      </button>
+    </ng-template>
+
+    <ng-template [ngIf]="!['available', 'quarantine', 'reserved', 'refreshing'].includes(testEnvironmentInfo.status.toLowerCase())">
+      <button mat-menu-item (click)="setTestEnvironmentToRefreshing(testEnvironmentInfo)">
+        <mat-icon>autorenew</mat-icon>
+        <span>Set Test Environment To Refreshing</span>
+      </button>
+    </ng-template>
+  </mat-menu>
+</mat-menu>

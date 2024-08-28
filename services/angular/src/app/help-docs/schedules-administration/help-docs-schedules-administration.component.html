@@ -1,0 +1,242 @@
+<app-help-docs-navigation></app-help-docs-navigation>
+<div id="help-docs-container" class="container">
+  <h1>Schedules Administration</h1>
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#purpose">Purpose</a></li>
+    <li><a href="#add-schedule">Add Schedules</a></li>
+    <li><a href="#edit-schedule">Edit Schedules</a></li>
+    <li><a href="#remove-schedule">Remove Schedules</a></li>
+  </ul>
+  <a class="anchor" name="overview"></a>
+  <h3>Overview</h3>
+  <hr>
+  <p>This page describes the schedule administration features in RPT.</p>
+  <p>It describes the purpose of these features and how they work.</p>
+
+  <a class="anchor" name="purpose"></a>
+  <h3>Purpose</h3>
+  <hr>
+  <p>The purpose of having schedules administration section in RPT is to provide the ability to:</p>
+  <ul>
+    <li>Add Schedule</li>
+    <li>Edit Schedule</li>
+    <li>Remove Schedule</li>
+  </ul>
+
+  <a class="anchor" name="add-schedule"></a>
+  <h3>Add Schedule</h3>
+  <hr>
+  <h4 class="steps-heading">Steps</h4>
+  <div class="steps">
+    <p><b class="step-number">1</b> <span class="single-step">Enter schedule name in the search box</span></p>
+    <ul>
+      <li>Please note that this is case sensitive.</li>
+    </ul>
+    <p><b class="step-number">2</b> <span class="single-step">Click on the 'Add Schedule' button</span></p>
+    <ul>
+      <li>If the schedule exists dialog box will be populated stating "Schedule * already exists in RPT".
+      </li>
+      <li>If the schedule does not exist, Add Schedule form will be populated.</li>
+    </ul>
+    <p><b class="step-number">3</b> <span class="single-step">Please enter the schedule's properties</span></p>
+    <ul>
+        <table>
+          <tr>
+              <th>Heading</th>
+              <th>Description</th>
+          </tr>
+          <tr>
+            <td>Schedule Enabled</td>
+            <td>Specifies if the schedule is enabled or disabled, the default position of the switch is set to off</td>
+        </tr>
+          <tr>
+              <td>Type Of Items To Schedule</td>
+              <td>The type of item you want to schedule (e.g. Pool, Test-environment)
+                <br>
+                Changing this setting will clear any items selected in the "Items To Schedule Ids" dropdown.
+              </td>
+          </tr>
+          <tr>
+              <td>Items To Schedule Ids</td>
+              <td>The pools or test environments the schedule will be associated with. This is a dropdown menu and multiple items can be selected.</td>
+          </tr>
+          <tr>
+              <td>Spinnaker Pipeline Application Name</td>
+              <td>The Spinnaker application the schedule will be associated with.
+              </td>
+          </tr>
+          <tr>
+              <td>Spinnaker Pipeline Name</td>
+              <td>The Spinnaker pipeline the schedule is associated with.</td>
+          </tr>
+          <tr>
+              <td>Retention Policy Enabled</td>
+              <td>Enable a retention policy for the <strong>"auto-refresh"</strong> schedule, the default position of the switch is set to off.
+              <p>The retention policy ensures that a specified number of standby environments is kept in RPT as specified in "No. Of Standby Envs to be Retained".
+              <br>After the number of standby environments are retained the rest of the environments are then compared to the specified number of recently released software versions, if the environment version is older it is then refreshed.
+              <br>If the retention policy is enabled the following properties will need to be populated.</p>
+              <ul>
+                  <li>No. Of Standby Envs to be Retained</li>
+                  <li>No. Of Software Release Versions For Comparison</li>
+              </ul>
+              </td>
+          </tr>
+          <tr>
+            <td>No. Of Standby Envs to be Retained</td>
+            <td>States the number of standby environments will be excluded from being refreshed</td>
+          </tr>
+          <tr>
+            <td>No. Of Software Release Versions For Comparison</td>
+            <td>States the number of release versions to compare against and refreshes any environments on older versions.</td>
+          </tr>
+          <tr>
+              <td>Schedule Type</td>
+              <td>The type of schedule. This is a dropdown menu where two schedule types can be selected.
+                <ul>
+                    <li>
+                      <b>auto-refresh:</b>
+                      <p>This shcedule is used when kicking off a refresh spinnaker pipeline. This schedule chooses stanby environments to use.</p>
+                    </li>
+                    <li>
+                      <b>auto-trigger:</b>
+                      <p>This schedule is used when triggering any other spinnaker pipeline. This schedule chooses available environments to use.</p>
+                    </li>
+                </ul>
+              </td>
+          </tr>
+          <tr>
+              <td>Project Area</td>
+              <td>The project area the schedule will be associated with (e.g. pso ,prod-eng). This is a dropdown menu and a single item can be selected.
+                <br>
+                If your selection is not available please contact team Thunderbee.
+              </td>
+          </tr>
+          <tr>
+            <td>Cron Schedule</td>
+            <td>The cron schedule is a set of five fields in a line, indicating when the job should be executed.
+              <br>
+              The input syntax is (minute, hour, day of the month, month, day of the week) with a space between each input. Inputs are checked with a message.
+            </td>
+          </tr>
+      </table>
+    </ul>
+    <p><b class="step-number">4</b> <span class="single-step">Click on 'Add Schedule'</span></p>
+  </div>
+
+  <a class="anchor" name="edit-schedule"></a>
+  <h3>Edit Schedule</h3>
+  <hr>
+  <h4 class="steps-heading">Steps</h4>
+  <div class="steps">
+    <p><b class="step-number">1</b> <span class="single-step">Enter schedule name in the search box</span></p>
+    <ul>
+      <li>Please note that this is case sensitive.</li>
+    </ul>
+    <p><b class="step-number">2</b> <span class="single-step">Click the 'Edit Schedule' button</span></p>
+    <ul>
+      <li>If the schedule exists, a dialog box will be populated with the schedule's current attributes.</li>
+      <li>If the schedule does not exist, the user will be notified by a pop-up window.</li>
+    </ul>
+    <p><b class="step-number">3</b> <span class="single-step">Edit the schedule's properties</span></p>
+    <ul>
+        <table>
+          <tr>
+              <th>Heading</th>
+              <th>Description</th>
+          </tr>
+          <tr>
+            <td>Schedule Enabled</td>
+            <td>Edit if the schedule is enabled or disabled.
+            </td>
+        </tr>
+          <tr>
+              <td>Type Of Items To Schedule</td>
+              <td>Edit the type of item you want to schedule (e.g. Pool, Test-environment)
+                <br>
+                Changing this setting will clear any items selected in the "Items To Schedule Ids" dropdown.
+              </td>
+          </tr>
+          <tr>
+              <td>Items To Schedule Ids</td>
+              <td>Edit the pools or test environments the schedule will be associated with.</td>
+          </tr>
+          <tr>
+              <td>Spinnaker Pipeline Application Name</td>
+              <td>Edit the Spinnaker application the schedule will be associated with.</td>
+          </tr>
+          <tr>
+              <td>Spinnaker Pipeline Name</td>
+              <td>Edit the Spinnaker pipeline the schedule is associated with.</td>
+          </tr>
+          <tr>
+              <td>Retention Policy Enabled</td>
+              <td>Edit if the retention policy on the schedule is enabled or disabled.
+              <p>The retention policy ensures that we keep a specified number of standby environments in RPT as specified in "No. Of Standby Envs to be Retained".
+              <br>After the number of standby environments are retained the rest of the environments are then compared to the specified number of recently released software versions, if the environment version is older it is then refreshed.
+              <br>If the retention policy is enabled the following properties will need to be populated.</p>
+              <ul>
+                  <li>No. Of Standby Envs to be Retained</li>
+                  <li>No. Of Software Release Versions For Comparison</li>
+              </ul>
+              </td>
+          </tr>
+          <tr>
+            <td>No. Of Standby Envs to be Retained</td>
+            <td>States the number of standby environments will be excluded from being refreshed</td>
+          </tr>
+          <tr>
+            <td>No. Of Software Release Versions For Comparison</td>
+            <td>States the number of release versions to compare against and refreshes any environments on older versions.
+            <p>We refresh if the version on the environment is not within the last specified number of recently released software versions.</p>
+            </td>
+          </tr>
+          <tr>
+              <td>Schedule Type</td>
+              <td>Edit the type of schedule (e.g. auto-refresh)</td>
+          </tr>
+          <tr>
+              <td>Project Area</td>
+              <td>Edit the project area the schedule will be associated with (e.g. pso ,prod-eng)
+                <br>
+                If your selection is not available please contact team Thunderbee.
+              </td>
+          </tr>
+          <tr>
+            <td>Cron Schedule</td>
+            <td>Edit the cron schedule, this changes when the job should be executed.
+              <br>
+              The input syntax is (minute, hour, day of the month, month, day of the week) with a space between each input. Inputs are checked with a message.
+            </td>
+          </tr>
+      </table>
+    </ul>
+    <p><b class="step-number">4</b> <span class="single-step">Click on 'Edit Schedule' to modify the
+        schedule</span></p>
+  </div>
+
+  <a class="anchor" name="remove-schedule"></a>
+  <h3>Remove Schedule</h3>
+  <hr>
+  <h4 class="steps-heading">Steps</h4>
+  <div class="steps">
+    <p><b class="step-number">1</b> <span class="single-step">Enter schedule name in the search box</span></p>
+    <ul>
+      <li>Please note that this is case sensitive.</li>
+    </ul>
+    <p><b class="step-number">2</b> <span class="single-step">Click on the 'Remove Schedule' button</span></p>
+    <ul>
+      <li>If the schedule does not exist, a dialog box will pop up stating that the schedule does not exist in
+        RPT.
+      </li>
+      <li>If the schedule exists, the Remove Schedule form will be opened.</li>
+    </ul>
+    <p><b class="step-number">3</b> <span class="single-step">Re-enter the schedule's name</span></p>
+    <ul>
+      <li>To confirm, please re-enter the name of the schedule to be removed.</li>
+      <li>The submit button will only be enabled in the name of the schedule to be removed has been re-entered.</li>
+    </ul>
+    <p><b class="step-number">4</b> <span class="single-step">Click on the 'Submit' button to remove the Schedule</span>
+    </p>
+  </div>
+</div>

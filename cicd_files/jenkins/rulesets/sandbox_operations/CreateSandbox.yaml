@@ -1,0 +1,167 @@
+modelVersion: 2.0
+
+description: "Resource Pooling Tool: Build and Publish Sandbox Images"
+
+docker-images:
+  - helm: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/alpine/helm:3.5.4
+  - kubectl: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/bitnami/kubectl:1.20.8
+
+properties:
+ - ARM: https://arm.seli.gic.ericsson.se/artifactory
+ - REPO: proj-rpt-baseline-helm
+ - CLUSTER_NAME: olah023
+ - CLUSTER_USER: default
+ - CHART_YAML_PATH: https://${env.TB_GERRIT_CREDS}@gerrit-gamma.gic.ericsson.se/a/gitweb?p=OSS/com.ericsson.oss.ci/pooling-tooling-baseline.git;a=blob_plain;f=charts/rpt/staging-values.yaml;hb=refs/heads/master
+ - INGRESS_HOSTNAME: ${env.NAMESPACE}.olah023.rnd.gic.ericsson.se
+ - SSL_CERT_NAME: ${env.NAMESPACE}-cert
+ - ANGULAR_DOCKERFILE_PATH: ./services/angular/Dockerfile-sandbox
+ - EXPRESS_DOCKERFILE_PATH: ./services/express/Dockerfile-production
+ - SWAGGER_DOCKERFILE_PATH: ./services/swagger/Dockerfile-production
+ - ANGULAR_IMAGE_NAME: rpt_client
+ - EXPRESS_IMAGE_NAME: rpt_server
+ - SWAGGER_IMAGE_NAME: rpt_swagger
+ - ARMDOCKER_PREFIX: armdocker.rnd.ericsson.se/proj-eric-oss-dev-test
+ - IMAGE_TAG: ${env.JIRA_ID}-${env.BUILD_NUMBER}
+ - ANGULAR_FULL_IMAGE_NAME: ${ARMDOCKER_PREFIX}/${ANGULAR_IMAGE_NAME}:${IMAGE_TAG}
+ - EXPRESS_FULL_IMAGE_NAME: ${ARMDOCKER_PREFIX}/${EXPRESS_IMAGE_NAME}:${IMAGE_TAG}
+ - SWAGGER_FULL_IMAGE_NAME: ${ARMDOCKER_PREFIX}/${SWAGGER_IMAGE_NAME}:${IMAGE_TAG}
+ - RANCHER_DEFAULT_PROJECT_ID: c-m-t6s9vtmj:p-5kszr
+ - MONGO_PORT_NUMBER: 27021
+ - default-docker-flags: '--volume ${env.PWD}/.kube/config:/.kube/config
+                          --volume ${env.PWD}/.kube:/.kube
+                          --volume ${env.PWD}/data:/data'
+
+var:
+  - docker-image-id
+  - dockerfile-path
+  - image-name
+  - replica-name
+  - new_mongo_uri
+  - current_mongo_uri
+  - helm_chart_to_uninstall
+
+env:
+  - HELM_CHART_REPO_USER
+  - HELM_CHART_REPO_KEY
+  - TB_GERRIT_CREDS
+  - PWD
+  - WORKSPACE
+  - BUILD_NUMBER
+  - JIRA_ID
+  - NAMESPACE
+  - DEPLOY_SWAGGER
+
+rules:
+  update-mongo-port-in-express-code:
+    - task: generate-mongo-uri
+      cmd: echo "mongodb://database:${MONGO_PORT_NUMBER}/" > .bob/var.new_mongo_uri
+    - task: current-mongo-uri
+      cmd: echo "mongodb://database/" > .bob/var.current_mongo_uri
+    - task: update-mongo-port-in-express-code
+      cmd: cat ${env.PWD}/services/express/config/config.json; sed -i "s|${var.current_mongo_uri}|${var.new_mongo_uri}|g" ${env.PWD}/services/express/config/config.json; cat ${env.PWD}/services/express/config/config.json
+
+  set-angular-env-variables:
+    - task: set-path-to-angular-dockerfile
+      cmd: echo ${ANGULAR_DOCKERFILE_PATH} > .bob/var.dockerfile-path
+    - task: set-angular-image-name
+      cmd: echo ${ANGULAR_IMAGE_NAME} > .bob/var.image-name
+
+  set-express-env-variables:
+    - task: set-path-to-express-dockerfile
+      cmd: echo ${EXPRESS_DOCKERFILE_PATH} > .bob/var.dockerfile-path
+    - task: set-express-image-name
+      cmd: echo ${EXPRESS_IMAGE_NAME} > .bob/var.image-name
+
+  set-swagger-env-variables:
+    - task: set-path-to-swagger-dockerfile
+      cmd: echo ${SWAGGER_DOCKERFILE_PATH} > .bob/var.dockerfile-path
+    - task: set-swagger-image-name
+      cmd: echo ${SWAGGER_IMAGE_NAME} > .bob/var.image-name
+
+  build-docker-image:
+    - task: build-image
+      cmd: docker build -f ${var.dockerfile-path} -t ${ARMDOCKER_PREFIX}/${var.image-name}:${IMAGE_TAG} --pull ${env.WORKSPACE}
+
+  publish-docker-image:
+    - task: push-docker-image
+      cmd: docker push ${ARMDOCKER_PREFIX}/${var.image-name}:${IMAGE_TAG}
+
+  delete-docker-image:
+    - task: delete-local-image
+      cmd: docker rmi ${ARMDOCKER_PREFIX}/${var.image-name}:${IMAGE_TAG}
+
+  configure-sandbox-namespace:
+    - task: determine-helm-chart-to-uninstall
+      docker-image: helm
+      docker-flags:
+        - '--volume ${env.PWD}/.kube/config:/root/.kube/config'
+        - "--entrypoint=/bin/sh"
+        - "-u root"
+      cmd: -c "helm list -n ${env.NAMESPACE} --short --max 1" > .bob/var.helm_chart_to_uninstall
+    - task: uninstall-helm-chart
+      docker-image: helm
+      docker-flags:
+        - '--volume ${env.PWD}/.kube/config:/root/.kube/config'
+        - "--entrypoint=/bin/sh"
+        - "-u root"
+      cmd: -c "if [ ${var.helm_chart_to_uninstall} != "None" ]; then helm uninstall -n ${env.NAMESPACE} ${var.helm_chart_to_uninstall}; fi"
+
+  create-and-switch-to-sandbox-context:
+    - task: create-context
+      docker-image: kubectl
+      docker-flags:
+       - ${default-docker-flags}
+      cmd: config set-context sandbox --cluster=${CLUSTER_NAME} --user=${CLUSTER_USER} --namespace=${env.NAMESPACE}
+    - task: switch-context
+      docker-image: kubectl
+      docker-flags:
+       - ${default-docker-flags}
+      cmd: config use-context sandbox
+
+  create-pvcs:
+    - task: create-mongo-pvc
+      docker-image: kubectl
+      docker-flags:
+       - ${default-docker-flags}
+      cmd: apply -f "/data/MongoPvc.yaml"
+
+  delete-pvcs:
+    - task: delete-mongo-pvc
+      docker-image: kubectl
+      docker-flags:
+       - ${default-docker-flags}
+      cmd: delete pvc --all -n ${env.NAMESPACE} --ignore-not-found
+
+  run-helm-install:
+    - task: add-rpt-helm-repo-and-run-install
+      docker-image: helm
+      docker-flags:
+        - '--volume ${env.PWD}/.kube/config:/root/.kube/config'
+        - "--entrypoint=/bin/sh"
+        - "-u root"
+      cmd:  -c "helm repo add ${REPO} '${ARM}/${REPO}'
+              --username '${env.HELM_CHART_REPO_USER}'
+              --password '${env.HELM_CHART_REPO_KEY}';
+            helm repo update;
+            helm install
+            -f \"${CHART_YAML_PATH}\"
+              --set rptAngular.image=${ANGULAR_FULL_IMAGE_NAME}
+              --set rptExpress.image=${EXPRESS_FULL_IMAGE_NAME}
+              --set rptSwagger.image=${SWAGGER_FULL_IMAGE_NAME}
+              --set rptIngress.namespaceName=${env.NAMESPACE}
+              --set rptIngress.hostName=${INGRESS_HOSTNAME}
+              --set coreConfig.namespace=${env.NAMESPACE}
+              --set rptIngress.sslCertName=${SSL_CERT_NAME}
+              --set rptMongo.port=${MONGO_PORT_NUMBER}
+            rpt-chart ${REPO}/rpt-chart"
+
+  remove-swagger-pod:
+    - task: delete-pod
+      docker-image: kubectl
+      docker-flags:
+       - ${default-docker-flags}
+      cmd:
+        - config set-context --current --namespace=${env.NAMESPACE}
+        - get replicasets --namespace=${env.NAMESPACE} | grep swagger-deployment* | cut -d' ' -f1 > .bob/var.replica-name
+        - scale replicaset/${var.replica-name} --replicas=0;
+        - scale deployment/swagger-deployment --replicas=0

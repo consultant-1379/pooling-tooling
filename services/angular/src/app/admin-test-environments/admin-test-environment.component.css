@@ -1,0 +1,54 @@
+.admin-env-container {
+  padding-top: 48px;
+}
+
+.search-view {
+  align-items: center;
+  margin-bottom: 8%;
+  width: 500px;
+  margin-top: 15%;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 50px;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.5em 0 1em !important;
+}
+
+.add-environment {
+  align-items: center;
+  margin-right: 10px;
+  line-height: 60px;
+  width: 160px;
+  font-size: 14px;
+}
+
+.edit-environment {
+  align-items: center;
+  line-height: 60px;
+  width: 160px;
+  font-size: 14px;
+}
+
+.remove-environment {
+  align-items: center;
+  margin-left: 10px;
+  line-height: 60px;
+  width: 160px;
+  font-size: 14px;
+}
+
+.environment-h1 {
+  font-size: 62px;
+  margin-top: 6%;
+  text-align: center;
+}
+
+.environment-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
